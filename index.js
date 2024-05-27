@@ -1,21 +1,26 @@
 const express = require('express')
 const app = express()
-//const port = 3000
 const fs = require('fs/promises');
 
-let articoli = undefined;
-let fabbriche = undefined;
-let richieste = [];
-let code = {};
+let controller = require('./controller.js');
 
-fs.readFile('./articoli.json')
+let stato = {
+    articoli: undefined,
+    fabbriche: undefined,
+    richieste: undefined,
+    deposito: undefined,
+    regole: undefined,
+    code: {},
+    tree: {}
+}
+
+fs.readFile('./json/articoli.json')
     .then((data) => {
         let arts = JSON.parse(data);
-        articoli = arts.map((art, i) => {
+        stato.articoli = arts.map((art, i) => {
             return {
                 nome: art.nome,
                 fabbrica: art.fabbrica,
-                regola: art.regola,
                 inMagazzino: 0,
                 inProduzione: 0,
                 rechiesti: 0,
@@ -30,60 +35,42 @@ fs.readFile('./articoli.json')
         // Do something if error 
     });
 
-fs.readFile('./fabbriche.json')
+fs.readFile('./json/fabbriche.json')
     .then((data) => {
-        fabbriche = JSON.parse(data);
+        stato.fabbriche = JSON.parse(data);
     })
     .catch((error) => {
         // Do something if error 
     });
-/*
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
 
-app.get('/articoli', (req, res) => {
-    res.send(JSON.stringify(articoli));
-})
+fs.readFile('./json/regole.json')
+    .then((data) => {
+        stato.regole = JSON.parse(data);
+    })
+    .catch((error) => {
+        // Do something if error 
+    });
 
-app.get('/fabbriche', (req, res) => {
-    res.send(JSON.stringify(fabbriche));
-})
-
-app.get('/richieste', (req, res) => {
-    res.send(JSON.stringify(richieste));
-})
-
-app.post('/', function (req, res) {
-    res.send('Got a POST request');
-});
-
-app.put('/user', function (req, res) {
-    res.send('Got a PUT request at /user');
-});
-
-app.delete('/user', function (req, res) {
-    res.send('Got a DELETE request at /user');
-});
-
-app.listen(port, () => {
-    console.log(`Controller listening on port ${port}`)
-}) */
-
-//const express = require('express')
-//const app = express()
+fs.readFile('./json/deposito.json')
+    .then((data) => {
+        stato.deposito = JSON.parse(data);
+    })
+    .catch((error) => {
+        // Do something if error 
+    });
 
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
-app.use(express.urlencoded({extended: false}))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
 //Middleware
 app.use(session({
     secret: "secret",
-    resave: false ,
-    saveUninitialized: true ,
+    resave: false,
+    saveUninitialized: true,
 }))
 
 app.use(passport.initialize()) // init passport on every route call
@@ -93,51 +80,51 @@ authUser = (user, password, done) => {
     console.log(`Value of "User" in authUser function ----> ${user}`)         //passport will populate, user = req.body.username
     console.log(`Value of "Password" in authUser function ----> ${password}`) //passport will popuplate, password = req.body.password
 
-// Use the "user" and "password" to search the DB and match user/password to authenticate the user
-// 1. If the user not found, done (null, false)
-// 2. If the password does not match, done (null, false)
-// 3. If user found and password match, done (null, user)
-    
-    
+    // Use the "user" and "password" to search the DB and match user/password to authenticate the user
+    // 1. If the user not found, done (null, false)
+    // 2. If the password does not match, done (null, false)
+    // 3. If user found and password match, done (null, user)
+
+
     let authenticated_user = undefined//{ id: 123, name: "Kyle"} 
-//Let's assume that DB search that user found and password matched for Kyle
-if(user === "raffaele" && password === "1234"){
-    authenticated_user = { id: 1, name: "raffaele"}
-    return done (null, authenticated_user )
+    //Let's assume that DB search that user found and password matched for Kyle
+    if (user === "raffaele" && password === "1234") {
+        authenticated_user = { id: 1, name: "raffaele" }
+        return done(null, authenticated_user)
+    }
+
+    return done(null, false)
 }
-    
-    return done (null, false ) 
-}
 
 
-passport.use(new LocalStrategy (authUser))
+passport.use(new LocalStrategy(authUser))
 
-passport.serializeUser( (user, done) => { 
+passport.serializeUser((user, done) => {
     console.log(`--------> Serialize User`)
-    console.log(user)     
+    console.log(user)
 
     done(null, user.id)
-  
-// Passport will pass the authenticated_user to serializeUser as "user" 
-// This is the USER object from the done() in auth function
-// Now attach using done (null, user.id) tie this user to the req.session.passport.user = {id: user.id}, 
-// so that it is tied to the session object
 
-} )
+    // Passport will pass the authenticated_user to serializeUser as "user" 
+    // This is the USER object from the done() in auth function
+    // Now attach using done (null, user.id) tie this user to the req.session.passport.user = {id: user.id}, 
+    // so that it is tied to the session object
+
+})
 
 
 passport.deserializeUser((id, done) => {
-        console.log("---------> Deserialize Id")
-        console.log(id)
+    console.log("---------> Deserialize Id")
+    console.log(id)
 
-        done (null, {name: "raffaele", id: 1} )      
-  
-// This is the id that is saved in req.session.passport.{ user: "id"} during the serialization
-// use the id to find the user in the DB and get the user object with user details
-// pass the USER object in the done() of the de-serializer
-// this USER object is attached to the "req.user", and can be used anywhere in the App.
+    done(null, { name: "raffaele", id: 1 })
 
-}) 
+    // This is the id that is saved in req.session.passport.{ user: "id"} during the serialization
+    // use the id to find the user in the DB and get the user object with user details
+    // pass the USER object in the done() of the de-serializer
+    // this USER object is attached to the "req.user", and can be used anywhere in the App.
+
+})
 
 
 //Middleware to see how the params are populated by Passport
@@ -147,20 +134,20 @@ printData = (req, res, next) => {
     console.log("\n==============================")
     console.log(`------------>  ${count++}`)
 
-    console.log(`req.body.username -------> ${req.body.username}`) 
+    console.log(`req.body.username -------> ${req.body.username}`)
     console.log(`req.body.password -------> ${req.body.password}`)
 
     console.log(`\n req.session.passport -------> `)
     console.log(req.session.passport)
-  
-    console.log(`\n req.user -------> `) 
-    console.log(req.user) 
-  
+
+    console.log(`\n req.user -------> `)
+    console.log(req.user)
+
     console.log("\n Session and Cookie")
-    console.log(`req.session.id -------> ${req.session.id}`) 
-    console.log(`req.session.cookie -------> `) 
-    console.log(req.session.cookie) 
-  
+    console.log(`req.session.id -------> ${req.session.id}`)
+    console.log(`req.session.cookie -------> `)
+    console.log(req.session.cookie)
+
     console.log("===========================================\n")
 
     next()
@@ -174,56 +161,61 @@ app.get("/login", (req, res) => {
     res.send('<h1> Login </h1><form action="/login" method="POST">USER <input type="text" name="username">PASSWORD <input type="password" name="password"><button type="submit"> Submit </button></form>');
 })
 
-app.post ("/login", passport.authenticate('local', {
-    successRedirect: "/articoli",
+app.post("/login", passport.authenticate('local', {
+    successRedirect: "/stato",
     failureRedirect: "/login",
 }))
 
-function checkAuthentication(req,res,next){
-    if(req.isAuthenticated()){
+function checkAuthentication(req, res, next) {
+    if (req.isAuthenticated()) {
         //req.isAuthenticated() will return true if user is logged in
         next();
-    } else{
+    } else {
         res.redirect("/login");
     }
 }
 
-app.get("/articoli", checkAuthentication, (req, res) => {   
-    //res.send("<h1> " + req.user.name + " is logged in </h1>");
-    res.send(articoli);
+app.post("/articoli/produzione", checkAuthentication, (req, res) => {
+    //console.log("body: " + JSON.stringify(req.body));
+    let nome = req.body.articolo;
+    let inc = Number(req.body.incremento);
+    //console.log(nome);
+    //console.log(inc);
+    controller.incProduzione(nome, inc, stato);
+    res.send(stato);
+    //console.log("Funziona");
 })
 
-app.get("/fabbriche", checkAuthentication, (req, res) => {   
-    //res.send("<h1> " + req.user.name + " is logged in </h1>");
-    res.send(fabbriche);
+app.post("/articoli/magazzino", checkAuthentication, (req, res) => {
+    //console.log("body: " + JSON.stringify(req.body));
+    let nome = req.body.articolo;
+    let inc = Number(req.body.incremento);
+    //console.log(nome);
+    //console.log(inc);
+    controller.incMagazzino(nome, inc, stato);
+    res.send(stato);
+    //console.log("Funziona");
 })
 
-app.get("/richieste", checkAuthentication, (req, res) => {   
-    //res.send("<h1> " + req.user.name + " is logged in </h1>");
-    res.send(richieste);
+app.get("/stato", checkAuthentication, (req, res) => {
+    res.send(stato);
 })
 
-app.get("/code", checkAuthentication, (req, res) => {   
-    //res.send("<h1> " + req.user.name + " is logged in </h1>");
-    res.send(code);
-})
-
-app.get('/logout', function(req, res, next){
+app.get('/logout', function (req, res, next) {
     req.session.destroy(function (err) {
         res.redirect('/login'); //Inside a callback… bulletproof!
-      });
-    //res.redirect('/login')
-  });
+    });
+});
 
 app.all('*', (req, res) => {
-    res.redirect('/articoli');
+    res.redirect('/stato');
 })
 
 /*
  richiesta di modifica di un articolo
     --> modifica alrticolo
-    --> producibile
     --> raccoglibile
+    --> producibile
     --> assegna
     --> da produrre
     --> da raccogliere -
