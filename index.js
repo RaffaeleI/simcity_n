@@ -4,31 +4,18 @@ const fs = require('fs/promises');
 
 let controller = require('./controller.js');
 
-let stato = {
-    articoli: undefined,
-    fabbriche: undefined,
-    richieste: undefined,
-    deposito: undefined,
-    regole: undefined,
-    code: {},
-    tree: {}
-}
+let stato = require('./stato.js')
+
+let Articolo = require('./articolo.js');
 
 fs.readFile('./json/articoli.json')
     .then((data) => {
         let arts = JSON.parse(data);
         stato.articoli = arts.map((art, i) => {
-            return {
-                nome: art.nome,
-                fabbrica: art.fabbrica,
-                inMagazzino: 0,
-                inProduzione: 0,
-                rechiesti: 0,
-                producibile: false,
-                raccoglibile: false,
-                daProdurre: false,
-                daRaccogliere: false
-            }
+            let articolo = new Articolo();
+            articolo.nome = art.nome;
+            articolo.fabbrica = art.fabbrica;
+            return articolo;
         });
     })
     .catch((error) => {
@@ -153,7 +140,7 @@ printData = (req, res, next) => {
     next()
 }
 
-app.use(printData) //user printData function as middleware to print populated variables
+// app.use(printData) //user printData function as middleware to print populated variables
 
 app.listen(3001, () => console.log(`Server started on port 3001...`))
 
@@ -176,25 +163,49 @@ function checkAuthentication(req, res, next) {
 }
 
 app.post("/articoli/produzione", checkAuthentication, (req, res) => {
-    //console.log("body: " + JSON.stringify(req.body));
     let nome = req.body.articolo;
     let inc = Number(req.body.incremento);
-    //console.log(nome);
-    //console.log(inc);
     controller.incProduzione(nome, inc, stato);
     res.send(stato);
-    //console.log("Funziona");
 })
 
 app.post("/articoli/magazzino", checkAuthentication, (req, res) => {
-    //console.log("body: " + JSON.stringify(req.body));
     let nome = req.body.articolo;
     let inc = Number(req.body.incremento);
-    //console.log(nome);
-    //console.log(inc);
     controller.incMagazzino(nome, inc, stato);
     res.send(stato);
-    //console.log("Funziona");
+})
+
+app.get("/richieste", checkAuthentication, (req, res) => {
+    res.send(stato.tree);
+})
+
+app.post("/richieste", checkAuthentication, (req, res) => {
+    let nome = req.body.nome;
+    controller.addRichiesta(nome, stato);
+    res.send(stato);
+})
+
+app.delete("/richieste", checkAuthentication, (req, res) => {
+    let nome = req.body.nome;
+    controller.deleteRichiesta(nome, stato);
+    res.send(stato);
+})
+
+app.patch("/richieste/necessari", checkAuthentication, (req, res) => {
+    let nome = req.body.nome;
+    let inc = req.body.incremento;
+    let nec = req.body.necessario;
+    controller.incNecessario(nome, nec, inc, stato);
+    res.send(stato);
+})
+
+app.patch("/richieste/ottenuti", checkAuthentication, (req, res) => {
+    let nome = req.body.nome;
+    let inc = req.body.incremento;
+    let ott = req.body.ottenuto;
+    controller.incOttenuto(nome, ott, inc, stato);
+    res.send(stato);
 })
 
 app.get("/stato", checkAuthentication, (req, res) => {
@@ -218,8 +229,8 @@ app.all('*', (req, res) => {
     --> producibile
     --> assegna
     --> da produrre
-    --> da raccogliere -
-    -> richiesti 
+    --> da raccogliere
+    --> richiesti 
     --> vista ad albero 
     --> code 
     --> json
@@ -227,6 +238,7 @@ app.all('*', (req, res) => {
 
  richiesta di modifica di una richiesta 
     --> modifica richiesta 
+    --> albero
     --> assegna 
     --> da produrre 
     --> da raccogliere 

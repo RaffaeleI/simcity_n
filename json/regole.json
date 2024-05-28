@@ -3,7 +3,7 @@
         "nome": "CHIODI",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 2
             }
         ]
@@ -12,7 +12,7 @@
         "nome": "ASSI",
         "regola": [
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 2
             }
         ]
@@ -21,7 +21,7 @@
         "nome": "MATTONI",
         "regola": [
             {
-                "articolo": "MINERALI",
+                "necessario": "MINERALI",
                 "valore": 2
             }
         ]
@@ -30,11 +30,11 @@
         "nome": "CEMENTO",
         "regola": [
             {
-                "articolo": "MINERALI",
+                "necessario": "MINERALI",
                 "valore": 2
             },
             {
-                "articolo": "SOSTANZE CHIMICHE",
+                "necessario": "SOSTANZE CHIMICHE",
                 "valore": 1
             }
         ]
@@ -43,11 +43,11 @@
         "nome": "COLLA",
         "regola": [
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 1
             },
             {
-                "articolo": "SOSTANZE CHIMICHE",
+                "necessario": "SOSTANZE CHIMICHE",
                 "valore": 2
             }
         ]
@@ -56,15 +56,15 @@
         "nome": "VERNICE",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 2
             },
             {
-                "articolo": "MINERALI",
+                "necessario": "MINERALI",
                 "valore": 1
             },
             {
-                "articolo": "SOSTANZE CHIMICHE",
+                "necessario": "SOSTANZE CHIMICHE",
                 "valore": 2
             }
         ]
@@ -73,11 +73,11 @@
         "nome": "MARTELLO",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 1
             },
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 1
             }
         ]
@@ -86,11 +86,11 @@
         "nome": "METRO A NASTRO",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 1
             },
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 1
             }
         ]
@@ -99,15 +99,15 @@
         "nome": "PALA",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 1
             },
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 1
             },
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 1
             }
         ]
@@ -116,15 +116,15 @@
         "nome": "UTENSILI DA CUCINA",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 2
             },
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 2
             },
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 2
             }
         ]
@@ -133,11 +133,11 @@
         "nome": "SCALA",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 2
             },
             {
-                "articolo": "ASSI",
+                "necessario": "ASSI",
                 "valore": 2
             }
         ]
@@ -146,15 +146,15 @@
         "nome": "TRAPANO",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 2
             },
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 2
             },
             {
-                "articolo": "COMPONENTI ELETTRICI",
+                "necessario": "COMPONENTI ELETTRICI",
                 "valore": 1
             }
         ]
@@ -163,11 +163,11 @@
         "nome": "ERBA",
         "regola": [
             {
-                "articolo": "SEMI",
+                "necessario": "SEMI",
                 "valore": 1
             },
             {
-                "articolo": "PALA",
+                "necessario": "PALA",
                 "valore": 1
             }
         ]
@@ -176,11 +176,11 @@
         "nome": "ARBOSCELLI",
         "regola": [
             {
-                "articolo": "SEMI",
+                "necessario": "SEMI",
                 "valore": 2
             },
             {
-                "articolo": "PALA",
+                "necessario": "PALA",
                 "valore": 1
             }
         ]
@@ -189,15 +189,15 @@
         "nome": "ARREDAMENTO DA GIARDINO",
         "regola": [
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 2
             },
             {
-                "articolo": "TESSUTI",
+                "necessario": "TESSUTI",
                 "valore": 2
             },
             {
-                "articolo": "ASSI",
+                "necessario": "ASSI",
                 "valore": 2
             }
         ]
@@ -206,15 +206,15 @@
         "nome": "BUCA PER IL FUOCO",
         "regola": [
             {
-                "articolo": "MATTONI",
+                "necessario": "MATTONI",
                 "valore": 2
             },
             {
-                "articolo": "CEMENTO",
+                "necessario": "CEMENTO",
                 "valore": 2
             },
             {
-                "articolo": "PALA",
+                "necessario": "PALA",
                 "valore": 1
             }
         ]
@@ -223,15 +223,15 @@
         "nome": "TOSAERBA",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 3
             },
             {
-                "articolo": "COMPONENTI ELETTRICI",
+                "necessario": "COMPONENTI ELETTRICI",
                 "valore": 1
             },
             {
-                "articolo": "VERNICE",
+                "necessario": "VERNICE",
                 "valore": 1
             }
         ]
@@ -240,11 +240,11 @@
         "nome": "GNOMI DA GIARDINO",
         "regola": [
             {
-                "articolo": "CEMENTO",
+                "necessario": "CEMENTO",
                 "valore": 2
             },
             {
-                "articolo": "COLLA",
+                "necessario": "COLLA",
                 "valore": 1
             }
         ]
@@ -253,7 +253,7 @@
         "nome": "VEGETALI",
         "regola": [
             {
-                "articolo": "SEMI",
+                "necessario": "SEMI",
                 "valore": 2
             }
         ]
@@ -262,11 +262,11 @@
         "nome": "SACCHETTO DI FARINA",
         "regola": [
             {
-                "articolo": "SEMI",
+                "necessario": "SEMI",
                 "valore": 2
             },
             {
-                "articolo": "TESSUTI",
+                "necessario": "TESSUTI",
                 "valore": 2
             }
         ]
@@ -275,11 +275,11 @@
         "nome": "FRUTTA E FRUTTI DI BOSCO",
         "regola": [
             {
-                "articolo": "SEMI",
+                "necessario": "SEMI",
                 "valore": 2
             },
             {
-                "articolo": "ARBOSCELLI",
+                "necessario": "ARBOSCELLI",
                 "valore": 1
             }
         ]
@@ -288,7 +288,7 @@
         "nome": "PANNA",
         "regola": [
             {
-                "articolo": "MANGIME",
+                "necessario": "MANGIME",
                 "valore": 1
             }
         ]
@@ -297,11 +297,11 @@
         "nome": "GRANOTURCO",
         "regola": [
             {
-                "articolo": "SEMI",
+                "necessario": "SEMI",
                 "valore": 4
             },
             {
-                "articolo": "MINERALI",
+                "necessario": "MINERALI",
                 "valore": 1
             }
         ]
@@ -310,7 +310,7 @@
         "nome": "FORMAGGIO",
         "regola": [
             {
-                "articolo": "MANGIME",
+                "necessario": "MANGIME",
                 "valore": 2
             }
         ]
@@ -319,7 +319,7 @@
         "nome": "MANZO",
         "regola": [
             {
-                "articolo": "MANGIME",
+                "necessario": "MANGIME",
                 "valore": 3
             }
         ]
@@ -328,11 +328,11 @@
         "nome": "CIAMBELLE",
         "regola": [
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 1
             },
             {
-                "articolo": "SACCHETTO DI FARINA",
+                "necessario": "SACCHETTO DI FARINA",
                 "valore": 1
             }
         ]
@@ -341,11 +341,11 @@
         "nome": "FRULLATO VERDE",
         "regola": [
             {
-                "articolo": "VEGETALI",
+                "necessario": "VEGETALI",
                 "valore": 1
             },
             {
-                "articolo": "FRUTTA E FRUTTI DI BOSCO",
+                "necessario": "FRUTTA E FRUTTI DI BOSCO",
                 "valore": 1
             }
         ]
@@ -354,11 +354,11 @@
         "nome": "PANINO",
         "regola": [
             {
-                "articolo": "SACCHETTO DI FARINA",
+                "necessario": "SACCHETTO DI FARINA",
                 "valore": 2
             },
             {
-                "articolo": "PANNA",
+                "necessario": "PANNA",
                 "valore": 1
             }
         ]
@@ -367,15 +367,15 @@
         "nome": "CHEESECAKE DI CILIEGIE",
         "regola": [
             {
-                "articolo": "SACCHETTO DI FARINA",
+                "necessario": "SACCHETTO DI FARINA",
                 "valore": 1
             },
             {
-                "articolo": "FRUTTA E FRUTTI DI BOSCO",
+                "necessario": "FRUTTA E FRUTTI DI BOSCO",
                 "valore": 1
             },
             {
-                "articolo": "FORMAGGIO",
+                "necessario": "FORMAGGIO",
                 "valore": 1
             }
         ]
@@ -384,15 +384,15 @@
         "nome": "YOGURT GELATO",
         "regola": [
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 1
             },
             {
-                "articolo": "PANNA",
+                "necessario": "PANNA",
                 "valore": 1
             },
             {
-                "articolo": "FRUTTA E FRUTTI DI BOSCO",
+                "necessario": "FRUTTA E FRUTTI DI BOSCO",
                 "valore": 1
             }
         ]
@@ -401,15 +401,15 @@
         "nome": "CAFFE'",
         "regola": [
             {
-                "articolo": "SEMI",
+                "necessario": "SEMI",
                 "valore": 2
             },
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 1
             },
             {
-                "articolo": "PANNA",
+                "necessario": "PANNA",
                 "valore": 1
             }
         ]
@@ -418,11 +418,11 @@
         "nome": "BERRETTO",
         "regola": [
             {
-                "articolo": "TESSUTI",
+                "necessario": "TESSUTI",
                 "valore": 2
             },
             {
-                "articolo": "METRO A NASTRO",
+                "necessario": "METRO A NASTRO",
                 "valore": 1
             }
         ]
@@ -431,15 +431,15 @@
         "nome": "SCARPE",
         "regola": [
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 1
             },
             {
-                "articolo": "TESSUTI",
+                "necessario": "TESSUTI",
                 "valore": 2
             },
             {
-                "articolo": "COLLA",
+                "necessario": "COLLA",
                 "valore": 1
             }
         ]
@@ -448,15 +448,15 @@
         "nome": "OROLOGIO",
         "regola": [
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 2
             },
             {
-                "articolo": "SOSTANZE CHIMICHE",
+                "necessario": "SOSTANZE CHIMICHE",
                 "valore": 1
             },
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 1
             }
         ]
@@ -465,15 +465,15 @@
         "nome": "COMPLETI DA UOMO",
         "regola": [
             {
-                "articolo": "TESSUTI",
+                "necessario": "TESSUTI",
                 "valore": 3
             },
             {
-                "articolo": "COLLA",
+                "necessario": "COLLA",
                 "valore": 1
             },
             {
-                "articolo": "METRO A NASTRO",
+                "necessario": "METRO A NASTRO",
                 "valore": 1
             }
         ]
@@ -482,15 +482,15 @@
         "nome": "ZAINO",
         "regola": [
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 2
             },
             {
-                "articolo": "TESSUTI",
+                "necessario": "TESSUTI",
                 "valore": 2
             },
             {
-                "articolo": "METRO A NASTRO",
+                "necessario": "METRO A NASTRO",
                 "valore": 1
             }
         ]
@@ -499,15 +499,15 @@
         "nome": "SEDIE",
         "regola": [
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 2
             },
             {
-                "articolo": "CHIODI",
+                "necessario": "CHIODI",
                 "valore": 1
             },
             {
-                "articolo": "MARTELLO",
+                "necessario": "MARTELLO",
                 "valore": 1
             }
         ]
@@ -516,15 +516,15 @@
         "nome": "TAVOLI",
         "regola": [
             {
-                "articolo": "CHIODI",
+                "necessario": "CHIODI",
                 "valore": 2
             },
             {
-                "articolo": "ASSI",
+                "necessario": "ASSI",
                 "valore": 1
             },
             {
-                "articolo": "MARTELLO",
+                "necessario": "MARTELLO",
                 "valore": 1
             }
         ]
@@ -533,11 +533,11 @@
         "nome": "BIANCHERIA PER LA CASA",
         "regola": [
             {
-                "articolo": "TESSUTI",
+                "necessario": "TESSUTI",
                 "valore": 2
             },
             {
-                "articolo": "METRO A NASTRO",
+                "necessario": "METRO A NASTRO",
                 "valore": 1
             }
         ]
@@ -546,15 +546,15 @@
         "nome": "CREDENZA",
         "regola": [
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 2
             },
             {
-                "articolo": "ASSI",
+                "necessario": "ASSI",
                 "valore": 2
             },
             {
-                "articolo": "VERNICE",
+                "necessario": "VERNICE",
                 "valore": 1
             }
         ]
@@ -563,15 +563,15 @@
         "nome": "DIVANO",
         "regola": [
             {
-                "articolo": "TESSUTI",
+                "necessario": "TESSUTI",
                 "valore": 3
             },
             {
-                "articolo": "COLLA",
+                "necessario": "COLLA",
                 "valore": 1
             },
             {
-                "articolo": "TRAPANO",
+                "necessario": "TRAPANO",
                 "valore": 1
             }
         ]
@@ -580,11 +580,11 @@
         "nome": "GRIGLIA PER BARBECUE",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 3
             },
             {
-                "articolo": "UTENSILI DA CUCINA",
+                "necessario": "UTENSILI DA CUCINA",
                 "valore": 1
             }
         ]
@@ -593,15 +593,15 @@
         "nome": "FRIGORIFERO",
         "regola": [
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 2
             },
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 2
             },
             {
-                "articolo": "COMPONENTI ELETTRICI",
+                "necessario": "COMPONENTI ELETTRICI",
                 "valore": 2
             }
         ]
@@ -610,15 +610,15 @@
         "nome": "SISTEMA DI ILLUMINAZIONE",
         "regola": [
             {
-                "articolo": "SOSTANZE CHIMICHE",
+                "necessario": "SOSTANZE CHIMICHE",
                 "valore": 1
             },
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 1
             },
             {
-                "articolo": "COMPONENTI ELETTRICI",
+                "necessario": "COMPONENTI ELETTRICI",
                 "valore": 1
             }
         ]
@@ -627,15 +627,15 @@
         "nome": "TV",
         "regola": [
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 2
             },
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 2
             },
             {
-                "articolo": "COMPONENTI ELETTRICI",
+                "necessario": "COMPONENTI ELETTRICI",
                 "valore": 2
             }
         ]
@@ -644,15 +644,15 @@
         "nome": "FORNO A MICROONDE",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 4
             },
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 1
             },
             {
-                "articolo": "COMPONENTI ELETTRICI",
+                "necessario": "COMPONENTI ELETTRICI",
                 "valore": 1
             }
         ]
@@ -661,11 +661,11 @@
         "nome": "GELATO CON BISCOTTO",
         "regola": [
             {
-                "articolo": "PANNA",
+                "necessario": "PANNA",
                 "valore": 1
             },
             {
-                "articolo": "PANINO",
+                "necessario": "PANINO",
                 "valore": 1
             }
         ]
@@ -674,15 +674,15 @@
         "nome": "PIZZA",
         "regola": [
             {
-                "articolo": "SACCHETTO DI FARINA",
+                "necessario": "SACCHETTO DI FARINA",
                 "valore": 1
             },
             {
-                "articolo": "FORMAGGIO",
+                "necessario": "FORMAGGIO",
                 "valore": 1
             },
             {
-                "articolo": "MANZO",
+                "necessario": "MANZO",
                 "valore": 1
             }
         ]
@@ -691,15 +691,15 @@
         "nome": "HAMBURGER",
         "regola": [
             {
-                "articolo": "PANINO",
+                "necessario": "PANINO",
                 "valore": 1
             },
             {
-                "articolo": "MANZO",
+                "necessario": "MANZO",
                 "valore": 1
             },
             {
-                "articolo": "GRIGLIA  PER BARBECUE",
+                "necessario": "GRIGLIA  PER BARBECUE",
                 "valore": 1
             }
         ]
@@ -708,11 +708,11 @@
         "nome": "PATATINE AL FORMAGGIO",
         "regola": [
             {
-                "articolo": "VEGETALI",
+                "necessario": "VEGETALI",
                 "valore": 1
             },
             {
-                "articolo": "FORMAGGIO",
+                "necessario": "FORMAGGIO",
                 "valore": 1
             }
         ]
@@ -721,15 +721,15 @@
         "nome": "BOTTIGLIA DI LIMONATA",
         "regola": [
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 2
             },
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 2
             },
             {
-                "articolo": "FRUTTA E FRUTTI DI BOSCO",
+                "necessario": "FRUTTA E FRUTTI DI BOSCO",
                 "valore": 1
             }
         ]
@@ -738,11 +738,11 @@
         "nome": "POP CORN",
         "regola": [
             {
-                "articolo": "GRANOTURCO",
+                "necessario": "GRANOTURCO",
                 "valore": 2
             },
             {
-                "articolo": "FORNO A MICROONDE",
+                "necessario": "FORNO A MICROONDE",
                 "valore": 1
             }
         ]
@@ -751,11 +751,11 @@
         "nome": "RACCHETTA DA TENNIS",
         "regola": [
             {
-                "articolo": "MINERALI",
+                "necessario": "MINERALI",
                 "valore": 4
             },
             {
-                "articolo": "MARTELLO",
+                "necessario": "MARTELLO",
                 "valore": 2
             }
         ]
@@ -764,11 +764,11 @@
         "nome": "BIBITA ENERGETICA",
         "regola": [
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 4
             },
             {
-                "articolo": "FRUTTA E FRUTTI DI BOSCO",
+                "necessario": "FRUTTA E FRUTTI DI BOSCO",
                 "valore": 2
             }
         ]
@@ -777,11 +777,11 @@
         "nome": "SCARPE DA CALCIO",
         "regola": [
             {
-                "articolo": "SOSTANZE CHIMICHE",
+                "necessario": "SOSTANZE CHIMICHE",
                 "valore": 3
             },
             {
-                "articolo": "SCARPE",
+                "necessario": "SCARPE",
                 "valore": 1
             }
         ]
@@ -790,11 +790,11 @@
         "nome": "BARRETTA PROTEICA",
         "regola": [
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 2
             },
             {
-                "articolo": "CHEESECAKE DI CILIEGIE",
+                "necessario": "CHEESECAKE DI CILIEGIE",
                 "valore": 1
             }
         ]
@@ -803,15 +803,15 @@
         "nome": "TAVOLO DA PING PONG",
         "regola": [
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 4
             },
             {
-                "articolo": "MINERALI",
+                "necessario": "MINERALI",
                 "valore": 4
             },
             {
-                "articolo": "TAVOLO",
+                "necessario": "TAVOLO",
                 "valore": 1
             }
         ]
@@ -820,11 +820,11 @@
         "nome": "BLOCCHI CON LETTERE",
         "regola": [
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 4
             },
             {
-                "articolo": "METRO A NASTRO",
+                "necessario": "METRO A NASTRO",
                 "valore": 1
             }
         ]
@@ -833,15 +833,15 @@
         "nome": "AQUILONE",
         "regola": [
             {
-                "articolo": "ASSI",
+                "necessario": "ASSI",
                 "valore": 2
             },
             {
-                "articolo": "VERNICE",
+                "necessario": "VERNICE",
                 "valore": 2
             },
             {
-                "articolo": "BIANCHERIA PER LA CASA",
+                "necessario": "BIANCHERIA PER LA CASA",
                 "valore": 2
             }
         ]
@@ -850,11 +850,11 @@
         "nome": "ORSACCHIOTTO",
         "regola": [
             {
-                "articolo": "PLASTICA",
+                "necessario": "PLASTICA",
                 "valore": 2
             },
             {
-                "articolo": "BIANCHERIA PER LA CASA",
+                "necessario": "BIANCHERIA PER LA CASA",
                 "valore": 4
             }
         ]
@@ -863,15 +863,15 @@
         "nome": "CONSOLE PER VIDEOGIOCHI",
         "regola": [
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 3
             },
             {
-                "articolo": "COMPONENTI ELETTRICI",
+                "necessario": "COMPONENTI ELETTRICI",
                 "valore": 3
             },
             {
-                "articolo": "SISTEMA DI ILLUMINAZIONE",
+                "necessario": "SISTEMA DI ILLUMINAZIONE",
                 "valore": 1
             }
         ]
@@ -884,7 +884,7 @@
         "nome": "OLIO MOTORE",
         "regola": [
             {
-                "articolo": "PETROLIO GREZZO",
+                "necessario": "PETROLIO GREZZO",
                 "valore": 2
             }
         ]
@@ -893,15 +893,15 @@
         "nome": "PNEOMATICO",
         "regola": [
             {
-                "articolo": "CHIODI",
+                "necessario": "CHIODI",
                 "valore": 3
             },
             {
-                "articolo": "COLLA",
+                "necessario": "COLLA",
                 "valore": 1
             },
             {
-                "articolo": "PETROLIO GREZZO",
+                "necessario": "PETROLIO GREZZO",
                 "valore": 2
             }
         ]
@@ -910,15 +910,15 @@
         "nome": "MOTORE",
         "regola": [
             {
-                "articolo": "CHIODI",
+                "necessario": "CHIODI",
                 "valore": 3
             },
             {
-                "articolo": "COMPONENTI ELETTRICI",
+                "necessario": "COMPONENTI ELETTRICI",
                 "valore": 1
             },
             {
-                "articolo": "TRAPANO",
+                "necessario": "TRAPANO",
                 "valore": 1
             }
         ]
@@ -931,11 +931,11 @@
         "nome": "PESCE IN SCATOLA",
         "regola": [
             {
-                "articolo": "METALLO",
+                "necessario": "METALLO",
                 "valore": 1
             },
             {
-                "articolo": "PESCE",
+                "necessario": "PESCE",
                 "valore": 1
             }
         ]
@@ -944,15 +944,15 @@
         "nome": "ZUPPA DI PESCE",
         "regola": [
             {
-                "articolo": "UTENSILI DA CUCINA",
+                "necessario": "UTENSILI DA CUCINA",
                 "valore": 2
             },
             {
-                "articolo": "VEGETALI",
+                "necessario": "VEGETALI",
                 "valore": 1
             },
             {
-                "articolo": "PESCE",
+                "necessario": "PESCE",
                 "valore": 2
             }
         ]
@@ -961,11 +961,11 @@
         "nome": "PANINO AL SALMONE",
         "regola": [
             {
-                "articolo": "PANINO",
+                "necessario": "PANINO",
                 "valore": 1
             },
             {
-                "articolo": "PESCE",
+                "necessario": "PESCE",
                 "valore": 2
             }
         ]
@@ -978,7 +978,7 @@
         "nome": "SACCHETTO RIUTILIZZABILE",
         "regola": [
             {
-                "articolo": "TESSUTO RICICLATO",
+                "necessario": "TESSUTO RICICLATO",
                 "valore": 2
             }
         ]
@@ -987,15 +987,15 @@
         "nome": "SCARPE ECOLOGICHE",
         "regola": [
             {
-                "articolo": "COLLA",
+                "necessario": "COLLA",
                 "valore": 1
             },
             {
-                "articolo": "METRO A NASTRO",
+                "necessario": "METRO A NASTRO",
                 "valore": 1
             },
             {
-                "articolo": "TESSUTO RICICLATO",
+                "necessario": "TESSUTO RICICLATO",
                 "valore": 2
             }
         ]
@@ -1004,15 +1004,15 @@
         "nome": "TAPPETINO DA YOGA",
         "regola": [
             {
-                "articolo": "VERNICE",
+                "necessario": "VERNICE",
                 "valore": 1
             },
             {
-                "articolo": "BIANCHERIA PER LA CASA",
+                "necessario": "BIANCHERIA PER LA CASA",
                 "valore": 2
             },
             {
-                "articolo": "TESSUTO RICICLATO",
+                "necessario": "TESSUTO RICICLATO",
                 "valore": 3
             }
         ]
@@ -1025,7 +1025,7 @@
         "nome": "CORDINO",
         "regola": [
             {
-                "articolo": "SETA",
+                "necessario": "SETA",
                 "valore": 2
             }
         ]
@@ -1034,15 +1034,15 @@
         "nome": "VENTAGLIO",
         "regola": [
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 1
             },
             {
-                "articolo": "COLLA",
+                "necessario": "COLLA",
                 "valore": 2
             },
             {
-                "articolo": "SETA",
+                "necessario": "SETA",
                 "valore": 2
             }
         ]
@@ -1051,15 +1051,15 @@
         "nome": "VESTAGLIA",
         "regola": [
             {
-                "articolo": "VERNICE",
+                "necessario": "VERNICE",
                 "valore": 2
             },
             {
-                "articolo": "BIANCHERIA PER LA CASA",
+                "necessario": "BIANCHERIA PER LA CASA",
                 "valore": 1
             },
             {
-                "articolo": "SETA",
+                "necessario": "SETA",
                 "valore": 3
             }
         ]
@@ -1072,7 +1072,7 @@
         "nome": "OLIO DI COCCO",
         "regola": [
             {
-                "articolo": "COCCHI",
+                "necessario": "COCCHI",
                 "valore": 2
             }
         ]
@@ -1081,11 +1081,11 @@
         "nome": "CREME PER IL VISO",
         "regola": [
             {
-                "articolo": "SOSTANZE CHIMICHE",
+                "necessario": "SOSTANZE CHIMICHE",
                 "valore": 2
             },
             {
-                "articolo": "OLIO DI COCCO",
+                "necessario": "OLIO DI COCCO",
                 "valore": 2
             }
         ]
@@ -1094,15 +1094,15 @@
         "nome": "BEVANDA TROPICALE",
         "regola": [
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 1
             },
             {
-                "articolo": "FRUTTA E FRUTTI DI BOSCO",
+                "necessario": "FRUTTA E FRUTTI DI BOSCO",
                 "valore": 2
             },
             {
-                "articolo": "COCCHI",
+                "necessario": "COCCHI",
                 "valore": 2
             }
         ]
@@ -1111,15 +1111,15 @@
         "nome": "CAVALLO A DONDOLO",
         "regola": [
             {
-                "articolo": "LEGNO",
+                "necessario": "LEGNO",
                 "valore": 1
             },
             {
-                "articolo": "CHIODI",
+                "necessario": "CHIODI",
                 "valore": 1
             },
             {
-                "articolo": "MARTELLO",
+                "necessario": "MARTELLO",
                 "valore": 1
             }
         ]
@@ -1128,7 +1128,7 @@
         "nome": "DECORAZIONI NATALIZIE",
         "regola": [
             {
-                "articolo": "SEMI",
+                "necessario": "SEMI",
                 "valore": 1
             }
         ]
@@ -1137,7 +1137,7 @@
         "nome": "BASTONCINI DI ZUCCHERO",
         "regola": [
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 3
             }
         ]
@@ -1146,15 +1146,15 @@
         "nome": "BISCOTTI ALLO ZENZERO",
         "regola": [
             {
-                "articolo": "SPEZIE E ZUCCHERO",
+                "necessario": "SPEZIE E ZUCCHERO",
                 "valore": 1
             },
             {
-                "articolo": "UTENSILI DA CUCINA",
+                "necessario": "UTENSILI DA CUCINA",
                 "valore": 1
             },
             {
-                "articolo": "SACCHETTO DI FARINA",
+                "necessario": "SACCHETTO DI FARINA",
                 "valore": 1
             }
         ]
@@ -1163,11 +1163,11 @@
         "nome": "ORNAMENTI FESTIVI",
         "regola": [
             {
-                "articolo": "VETRO",
+                "necessario": "VETRO",
                 "valore": 2
             },
             {
-                "articolo": "VERNICE",
+                "necessario": "VERNICE",
                 "valore": 1
             }
         ]
@@ -1176,15 +1176,15 @@
         "nome": "",
         "regola": [
             {
-                "articolo": "",
+                "necessario": "",
                 "valore": 1
             },
             {
-                "articolo": "",
+                "necessario": "",
                 "valore": 1
             },
             {
-                "articolo": "",
+                "necessario": "",
                 "valore": 1
             }
         ]
