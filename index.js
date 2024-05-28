@@ -2,11 +2,11 @@ const express = require('express')
 const app = express()
 const fs = require('fs/promises');
 
-let controller = require('./controller.js');
+let controller = require('./js/controller.js');
 
-let stato = require('./stato.js')
+let stato = require('./js/stato.js')
 
-let Articolo = require('./articolo.js');
+let Articolo = require('./js/articolo.js');
 
 fs.readFile('./json/articoli.json')
     .then((data) => {

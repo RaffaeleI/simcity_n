@@ -1,6 +1,10 @@
 const Nodo = require('./nodo.js');
 
-module.exports.assegna = function (stato) {
+module.exports = function() {
+    
+}
+
+assegna = function (stato) {
     stato.articoli.forEach(art => art.richiesti = 0);
     stato.tree.forEach(ric => {
         assegnaR(ric.necessari, stato);
@@ -24,11 +28,11 @@ assegnaR = function (necessari, stato) {
     });
 }
 
-module.exports.daRaccogliere = function (stato) {
+daRaccogliere = function (stato) {
 
 }
 
-module.exports.daProdurre = function (stato) {
+daProdurre = function (stato) {
 
 }
 
@@ -43,7 +47,7 @@ contaFigliR = function(necessari){
     return count;
 }
 
-module.exports.tree = function (stato) {
+tree = function (stato) {
     stato.tree = [];
     stato.richieste.forEach(richiesta => {
         let albero = creaAlbero(richiesta, stato);
@@ -77,7 +81,7 @@ creaAlberoR = function (articolo, stato) {
     return nodo;
 }
 
-module.exports.resetAlbero = function (stato) {
+resetAlbero = function (stato) {
     stato.tree.forEach(ric => {
         resetAlberoR(ric.necessari);
     });
@@ -93,11 +97,11 @@ resetAlberoR = function (necessari) {
     })
 }
 
-module.exports.view = function(stato){
+view = function(stato){
 
 }
 
-module.exports.resetDaRaccogliere = function(stato) {
+resetDaRaccogliere = function(stato) {
 
 }
 
