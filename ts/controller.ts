@@ -5,7 +5,7 @@ import { Counter } from "./counter";
 import { readArticoli, readDeposito, readFabbriche } from "./readfile";
 import { Richiesta } from "./richiesta";
 import { runInThisContext } from "vm";
-import { regola } from "./regole";
+import { regola } from "./regola";
 
 // const articoliFile: string = "./../json/articoli.json";
 // const fabbricheFile = "./../json/articoli.json";

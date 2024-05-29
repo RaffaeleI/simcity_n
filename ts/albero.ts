@@ -1,6 +1,6 @@
 import { Articolo } from "./articolo";
 import { Nodo } from "./nodo";
-import { regola } from "./regole";
+import { regola } from "./regola";
 import { Richiesta } from "./richiesta";
 
 export function crea(
