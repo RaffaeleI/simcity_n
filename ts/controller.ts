@@ -17,7 +17,7 @@ export class Controller {
     fabbricheFile: string,
     depositoFile: string
   ) {
-    this.readFiles(articoliFile, fabbricheFile, depositoFile)
+    this.readFiles(articoliFile, fabbricheFile, depositoFile);
   }
 
   private async readFiles(
@@ -27,7 +27,7 @@ export class Controller {
   ) {
     this.articoli = await readArticoli(articoliFile);
     this.fabbriche = await readFabbriche(fabbricheFile);
-    this.deposito =  await readDeposito(depositoFile);
+    this.deposito = await readDeposito(depositoFile);
   }
 
   get(): any {
@@ -98,11 +98,15 @@ export class Controller {
     this.moveRichiesta(index, index + 1);
   }
 
-  incArticoloNecessario(richiesta: String, necessario: String, incremento: number): void {
+  incArticoloNecessario(
+    richiesta: String,
+    necessario: String,
+    incremento: number
+  ): void {
     let ric = this.getRichiesta(richiesta);
     let nec = this.getArticolo(necessario);
-    if(ric && nec){
-       ric.incNecessari(nec, incremento);
+    if (ric && nec) {
+      ric.incNecessari(nec, incremento);
     }
   }
 
@@ -166,11 +170,19 @@ export class Controller {
   }
 
   private getArticolo(nome: String): Articolo | undefined {
-    return this.articoli.find((el) => el.nome === nome);
+    let articolo: Articolo | undefined = undefined;
+    if (nome)
+      articolo = this.articoli.find((el) => el.nome === nome.toUpperCase());
+    return articolo;
   }
 
   private getRichiesta(nome: String): Richiesta | undefined {
-    return this.richieste.find((el) => el.getNome() === nome);
+    let richiesta: Richiesta | undefined = undefined;
+    if (nome)
+      richiesta = this.richieste.find(
+        (el) => el.getNome() === nome.toUpperCase()
+      );
+    return richiesta;
   }
 
   private assegnaArticoli(): void {
