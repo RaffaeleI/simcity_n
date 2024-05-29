@@ -58,8 +58,6 @@ export class Richiesta {
   }
 
   get(): any {
-    let view = undefined;
-    if (this.tree) view = this.tree.get();
     return {
       nome: this.nome,
       eseguibile: this.eseguibile,
@@ -79,7 +77,6 @@ export class Richiesta {
             valore: nec.ottenuti.get()
           }
         }),
-      view: view,
     };
   }
 }
