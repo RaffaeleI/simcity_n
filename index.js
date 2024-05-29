@@ -2,45 +2,9 @@ const express = require('express')
 const app = express()
 const fs = require('fs/promises');
 
-let controller = require('./js/controller.js');
-
-let stato = require('./js/stato.js')
-
-let Articolo = require('./js/articolo.js');
-
-fs.readFile('./json/articoli.json')
-    .then((data) => {
-        let arts = JSON.parse(data);
-        stato.articoli = arts.map((art, i) => {
-            let articolo = new Articolo();
-            articolo.nome = art.nome;
-            articolo.fabbrica = art.fabbrica;
-            return articolo;
-        });
-    })
-    .catch((error) => {
-        // Do something if error 
-    });
-
-fs.readFile('./json/fabbriche.json')
-    .then((data) => {
-        stato.fabbriche = JSON.parse(data);
-    })
-    .catch((error) => {
-        // Do something if error 
-    });
-
 fs.readFile('./json/regole.json')
     .then((data) => {
-        stato.regole = JSON.parse(data);
-    })
-    .catch((error) => {
-        // Do something if error 
-    });
-
-fs.readFile('./json/deposito.json')
-    .then((data) => {
-        stato.deposito = JSON.parse(data);
+       // stato.regole = JSON.parse(data);
     })
     .catch((error) => {
         // Do something if error 
@@ -163,49 +127,31 @@ function checkAuthentication(req, res, next) {
 }
 
 app.post("/articoli/produzione", checkAuthentication, (req, res) => {
-    let nome = req.body.articolo;
-    let inc = Number(req.body.incremento);
-    controller.incProduzione(nome, inc, stato);
-    res.send(stato);
-})
+    res.send(req.body);})
 
 app.post("/articoli/magazzino", checkAuthentication, (req, res) => {
-    let nome = req.body.articolo;
-    let inc = Number(req.body.incremento);
-    controller.incMagazzino(nome, inc, stato);
-    res.send(stato);
+    res.send(req.body);
 })
 
 app.get("/richieste", checkAuthentication, (req, res) => {
-    res.send(stato.tree);
+    res.send("Ok");
 })
 
 app.post("/richieste", checkAuthentication, (req, res) => {
     let nome = req.body.nome;
-    controller.addRichiesta(nome, stato);
-    res.send(stato);
+    res.send(nome);
 })
 
 app.delete("/richieste", checkAuthentication, (req, res) => {
-    let nome = req.body.nome;
-    controller.deleteRichiesta(nome, stato);
-    res.send(stato);
+    res.send(req.body);
 })
 
 app.patch("/richieste/necessari", checkAuthentication, (req, res) => {
-    let nome = req.body.nome;
-    let inc = req.body.incremento;
-    let nec = req.body.necessario;
-    controller.incNecessario(nome, nec, inc, stato);
-    res.send(stato);
+    res.send(req.body);
 })
 
 app.patch("/richieste/ottenuti", checkAuthentication, (req, res) => {
-    let nome = req.body.nome;
-    let inc = req.body.incremento;
-    let ott = req.body.ottenuto;
-    controller.incOttenuto(nome, ott, inc, stato);
-    res.send(stato);
+    res.send(req.body);
 })
 
 app.get("/stato", checkAuthentication, (req, res) => {
