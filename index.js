@@ -1,18 +1,18 @@
+const Controller = require( './js/controller.js')
+
 const express = require('express')
 const app = express()
-const fs = require('fs/promises');
-
-fs.readFile('./json/regole.json')
-    .then((data) => {
-       // stato.regole = JSON.parse(data);
-    })
-    .catch((error) => {
-        // Do something if error 
-    });
+const fs = require('fs/promises')
 
 const session = require('express-session')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+
+const articoliFile = "./json/articoli.json";
+const fabbricheFile = "./json/fabbriche.json";
+const depositoFile = "./json/deposito.json";
+
+let controller = new Controller.Controller(articoliFile, fabbricheFile, depositoFile);
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -127,7 +127,8 @@ function checkAuthentication(req, res, next) {
 }
 
 app.post("/articoli/produzione", checkAuthentication, (req, res) => {
-    res.send(req.body);})
+    res.send(req.body);
+})
 
 app.post("/articoli/magazzino", checkAuthentication, (req, res) => {
     res.send(req.body);
@@ -139,7 +140,8 @@ app.get("/richieste", checkAuthentication, (req, res) => {
 
 app.post("/richieste", checkAuthentication, (req, res) => {
     let nome = req.body.nome;
-    res.send(nome);
+    controller.addRichiesta(nome);
+    res.send(controller.get());
 })
 
 app.delete("/richieste", checkAuthentication, (req, res) => {
@@ -147,7 +149,11 @@ app.delete("/richieste", checkAuthentication, (req, res) => {
 })
 
 app.patch("/richieste/necessari", checkAuthentication, (req, res) => {
-    res.send(req.body);
+    let richiesta = req.body.richiesta;
+    let necessario = req.body.necessario;
+    let incremento = req.body.incremento;
+    controller.incArticoloNecessario(richiesta, necessario, incremento);
+    res.send(controller.get());
 })
 
 app.patch("/richieste/ottenuti", checkAuthentication, (req, res) => {
@@ -155,7 +161,7 @@ app.patch("/richieste/ottenuti", checkAuthentication, (req, res) => {
 })
 
 app.get("/stato", checkAuthentication, (req, res) => {
-    res.send(stato);
+    res.send(controller.get());
 })
 
 app.get('/logout', function (req, res, next) {

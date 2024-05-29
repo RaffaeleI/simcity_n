@@ -1,16 +1,10 @@
 import { Articolo } from "./articolo";
-import fs from "fs/promises";
 import { Fabbrica } from "./fabbrica";
 import { Counter } from "./counter";
 import { readArticoli, readDeposito, readFabbriche } from "./readfile";
 import { Richiesta } from "./richiesta";
-import { runInThisContext } from "vm";
 import { regola } from "./regola";
-
-// const articoliFile: string = "./../json/articoli.json";
-// const fabbricheFile = "./../json/articoli.json";
-// const regoleFile = "./../json/articoli.json";
-// const depositoFile = "./../json/articoli.json";
+import { Nodo } from "./nodo";
 
 export class Controller {
   private articoli: Articolo[] = [];
@@ -23,9 +17,17 @@ export class Controller {
     fabbricheFile: string,
     depositoFile: string
   ) {
-    this.articoli = readArticoli(articoliFile);
-    this.fabbriche = readFabbriche(fabbricheFile);
-    this.deposito = readDeposito(depositoFile);
+    this.readFiles(articoliFile, fabbricheFile, depositoFile)
+  }
+
+  private async readFiles(
+    articoliFile: string,
+    fabbricheFile: string,
+    depositoFile: string
+  ) {
+    this.articoli = await readArticoli(articoliFile);
+    this.fabbriche = await readFabbriche(fabbricheFile);
+    this.deposito =  await readDeposito(depositoFile);
   }
 
   get(): any {
@@ -96,6 +98,14 @@ export class Controller {
     this.moveRichiesta(index, index + 1);
   }
 
+  incArticoloNecessario(richiesta: String, necessario: String, incremento: number): void {
+    let ric = this.getRichiesta(richiesta);
+    let nec = this.getArticolo(necessario);
+    if(ric && nec){
+       ric.incNecessari(nec, incremento);
+    }
+  }
+
   eseguiRichiesta(nome: String): void {
     this.setProducibile();
   }
@@ -157,5 +167,42 @@ export class Controller {
 
   private getArticolo(nome: String): Articolo | undefined {
     return this.articoli.find((el) => el.nome === nome);
+  }
+
+  private getRichiesta(nome: String): Richiesta | undefined {
+    return this.richieste.find((el) => el.getNome() === nome);
+  }
+
+  private assegnaArticoli(): void {
+    this.richieste.forEach((richiesta) => {
+      this.assegnaArticoliR(richiesta.tree);
+    });
+  }
+
+  private assegnaArticoliR(nodo: Nodo | undefined) {
+    if (nodo) {
+      if (nodo.articolo.getInMagazzino() > nodo.articolo.richiesti.get()) {
+        nodo.isInMagazzino = true;
+      } else if (
+        nodo.articolo.getInMagazzino() + nodo.articolo.getInProduzione() >
+        nodo.articolo.richiesti.get()
+      ) {
+        nodo.isInProduzione = true;
+      } else {
+        this.assegnaArticoliR(nodo.figlio);
+      }
+      nodo.articolo.richiesti.inc(1);
+      this.assegnaArticoliR(nodo.fratello);
+    }
+  }
+
+  private resetRichiesti(): void {
+    this.articoli.forEach((articolo) => articolo.richiesti.set(0));
+  }
+
+  private contaInMagazzino(): number {
+    let count: number = 0;
+    this.articoli.forEach((articolo) => (count += articolo.getInMagazzino()));
+    return count;
   }
 }

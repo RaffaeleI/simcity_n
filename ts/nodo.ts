@@ -10,11 +10,29 @@ export class Nodo {
   constructor(public articolo: Articolo, public figlio: Nodo | undefined) {}
 
   figliInMagazzino(): boolean {
-    return true;
+    let esito: boolean = true;
+    if(!this.isInMagazzino && !this.isInProduzione) {
+      if(this.figlio){
+        let f: Nodo | undefined= this.figlio;
+        while(f && esito) {
+          esito = esito && f.isInMagazzino;
+          f = f.figlio;
+        }
+      }
+    }
+    return esito;
   }
 
-  contaFigliDaRaccogliere(): number {
-    return 0;
+  contaDaRaccogliere(): number {
+    let count: number = 0
+    if(!this.isInMagazzino){
+      if(this.isInProduzione) count = 1;
+      else {
+        if(this.figlio) count = this.figlio.contaDaRaccogliere();
+      }
+    }
+    if(this.fratello) count += this.fratello.contaDaRaccogliere();
+    return count;
   }
 
   get(): any {
@@ -31,5 +49,12 @@ export class Nodo {
       figlio: figlio,
       fratello: fratello,
     };
+  }
+
+  reset(): void {
+    this.isDaProdurre = false;
+    this.isDaRaccogliere = false;
+    this.isInMagazzino = false;
+    this.isInProduzione = false;
   }
 }
