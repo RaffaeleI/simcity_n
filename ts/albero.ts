@@ -6,7 +6,7 @@ import { Richiesta } from "./richiesta";
 export function crea(
   richiesta: Richiesta,
   articoli: Articolo[]
-): Nodo | undefined {
+): void {
   let radice: Nodo | undefined = undefined;
   if (richiesta) {
     articoli.forEach((art) => {
@@ -19,7 +19,7 @@ export function crea(
       }
     });
   }
-  return radice;
+  richiesta.tree = radice;
 }
 
 function creaR(articolo: Articolo, articoli: Articolo[]): Nodo | undefined {

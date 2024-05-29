@@ -1,10 +1,12 @@
 import { Articolo } from "./articolo";
 import { Counter } from "./counter";
+import { Nodo } from "./nodo";
 
 export class Richiesta {
   public eseguibile: boolean = false;
   private nome: String = "";
   private arts: { articolo: Articolo; necessari: Counter; ottenuti: Counter }[] = [];
+  public tree: Nodo | undefined = undefined;
 
   constructor(nome: String, articoli: Articolo[]) {
     if (!nome || nome === "") throw new Error("Nome non valido: " + nome);
