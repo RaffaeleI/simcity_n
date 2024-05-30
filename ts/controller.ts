@@ -25,8 +25,8 @@ export class Controller {
     fabbricheFile: string,
     depositoFile: string
   ) {
-    this.articoli = await readArticoli(articoliFile);
     this.fabbriche = await readFabbriche(fabbricheFile);
+    this.articoli = await readArticoli(articoliFile, this.fabbriche);
     this.deposito = await readDeposito(depositoFile);
   }
 
@@ -46,10 +46,16 @@ export class Controller {
   }
 
   incArticoloInProduzione(nome: string, inc: number): void {
-    if (inc != 0) {
+    if (inc !== 0) {
       let articolo = this.getArticolo(nome);
       if (articolo) {
         articolo.incInProduzione(inc);
+        this.resetArticoli();
+        this.resetAlbero();
+        this.assegnaArticoli();
+        // this.setDaProdurre();
+        // this.setDaRaccogliere();
+        // this.setRichiesteEseguibili();
       }
     }
   }
@@ -58,8 +64,15 @@ export class Controller {
     if (inc != 0) {
       let articolo = this.getArticolo(nome);
       if (articolo) {
-        articolo.incInMagazzino(inc);
-        this.setProducibile();
+        articolo.incInProduzione(inc);
+        this.setArticoloProducibile();
+        this.resetArticoli();
+        this.resetAlbero();
+        this.assegnaArticoli();
+        // this.setDaProdurre();
+        // this.setDaRaccogliere();
+        // this.setRichiesteEseguibili();
+        
       }
     }
   }
@@ -110,9 +123,7 @@ export class Controller {
     }
   }
 
-  eseguiRichiesta(nome: String): void {
-    this.setProducibile();
-  }
+  eseguiRichiesta(nome: String): void {}
 
   private moveRichiesta(index: number, position: number): void {
     if (
@@ -140,7 +151,6 @@ export class Controller {
       if (articolo.isProducibile) {
         articolo.incInProduzione(-1);
         articolo.incInMagazzino(1);
-        this.setProducibile();
       }
     }
   }
@@ -151,12 +161,11 @@ export class Controller {
       if (articolo.isProducibile) {
         this.articoli.forEach((el) => el.incInMagazzino(-regola(articolo, el)));
         articolo.incInProduzione(1);
-        this.setProducibile();
       }
     }
   }
 
-  private setProducibile() {
+  private setArticoloProducibile() {
     this.articoli.forEach((art) => {
       let producibile = false;
       if (art.fabbrica.fabbricabile) {
@@ -208,11 +217,31 @@ export class Controller {
     }
   }
 
-  private resetRichiesti(): void {
-    this.articoli.forEach((articolo) => articolo.richiesti.set(0));
+  private resetArticoli(): void {
+    this.articoli.forEach((articolo) => articolo.reset()    );
   }
 
-  private contaInMagazzino(): number {
+  private resetDaProdurre(): void {
+    this.articoli.forEach((articolo) => (articolo.isDaProdurre = false));
+  }
+
+  private resetDaRaccogliere(): void {
+    this.articoli.forEach((articolo) => (articolo.isDaRaccogliere = false));
+  }
+
+  private resetAlbero(): void {
+    this.richieste.forEach((richiesta) => {
+      if (richiesta.tree) richiesta.tree.reset();
+    });
+  }
+
+  private resetRichiesteEseguibili(): void {
+    this.richieste.forEach((richiesta) => {
+      richiesta.eseguibile = false;
+    });
+  }
+
+  private contaArticoliInDeposito(): number {
     let count: number = 0;
     this.articoli.forEach((articolo) => (count += articolo.getInMagazzino()));
     return count;

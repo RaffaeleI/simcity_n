@@ -1,10 +1,10 @@
-import { crea } from "./albero";
+import { creaAlbero } from "./albero";
 import { Articolo } from "./articolo";
 import { Counter } from "./counter";
 import { Nodo } from "./nodo";
 
 export class Richiesta {
-  public eseguibile: boolean = false;
+  public eseguibile: boolean = true;
   private nome: String = "";
   private arts: {
     articolo: Articolo;
@@ -23,7 +23,6 @@ export class Richiesta {
         ottenuti: new Counter(),
       };
     });
-    crea(this, articoli);
   }
 
   getNome(): String {
@@ -47,17 +46,19 @@ export class Richiesta {
   incNecessari(articolo: Articolo, value: number): void {
     let art = this.arts.find((el) => el.articolo === articolo);
     if (art) {
-      art.necessari.set(value);
-      crea(this, this.articoli);
+      art.necessari.inc(value);
+      creaAlbero(this, this.articoli);
     }
   }
 
   incOttenuti(articolo: Articolo, value: number): void {
     let art = this.arts.find((el) => el.articolo === articolo);
-    if (art) art.ottenuti.set(value);
+    if (art) art.ottenuti.inc(value);
   }
 
   get(): any {
+    //let view = undefined;
+    //if (this.tree) view = this.tree.get();
     return {
       nome: this.nome,
       eseguibile: this.eseguibile,
@@ -66,17 +67,18 @@ export class Richiesta {
         .map((nec) => {
           return {
             articolo: nec.articolo.nome,
-            valore: nec.necessari.get()
-          }
+            valore: nec.necessari.get(),
+          };
         }),
       ottenuti: this.arts
         .filter((el) => el.ottenuti.get() !== 0)
         .map((nec) => {
           return {
             articolo: nec.articolo.nome,
-            valore: nec.ottenuti.get()
-          }
+            valore: nec.ottenuti.get(),
+          };
         }),
+      //view: view,
     };
   }
 }

@@ -3,14 +3,23 @@ import { Fabbrica } from "./fabbrica";
 import { Articolo } from "./articolo";
 import { Counter } from "./counter";
 
-export async function readArticoli(file: string): Promise<Articolo[]> {
+export async function readArticoli(
+  file: string,
+  fabbriche: Fabbrica[]
+): Promise<Articolo[]> {
   let articoli: Articolo[] = [];
   try {
     const data = await fs.readFile(file);
     let arts = JSON.parse(data.toString());
-    articoli = arts.map((art: { nome: String; fabbrica: Fabbrica }) => {
-      return new Articolo(art.nome, art.fabbrica);
-    });
+    if (fabbriche) {
+      articoli = arts.map((art: { nome: String; fabbrica: String }) => {
+        let fabbrica = fabbriche.find((el) => el.nome === art.fabbrica);
+        if (fabbrica) {
+          let a = new Articolo(art.nome, fabbrica);
+          return a;
+        } else throw new Error("Nome fabbrica non valodi: " + art.fabbrica);
+      });
+    }
     return articoli;
   } catch (error) {
     throw new Error("File " + file + " non trovato");

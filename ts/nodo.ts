@@ -56,5 +56,7 @@ export class Nodo {
     this.isDaRaccogliere = false;
     this.isInMagazzino = false;
     this.isInProduzione = false;
+    if(this.figlio) this.figlio.reset();
+    if(this.fratello) this.fratello.reset();
   }
 }

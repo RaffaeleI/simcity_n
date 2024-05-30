@@ -3,7 +3,7 @@ import { Nodo } from "./nodo";
 import { regola } from "./regola";
 import { Richiesta } from "./richiesta";
 
-export function crea(
+export function creaAlbero(
   richiesta: Richiesta,
   articoli: Articolo[]
 ): void {

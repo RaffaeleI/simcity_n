@@ -127,11 +127,17 @@ function checkAuthentication(req, res, next) {
 }
 
 app.post("/articoli/produzione", checkAuthentication, (req, res) => {
-    res.send(req.body);
+    let articolo = req.body.articolo;
+    let inc = req.body.incremento;
+    controller.incArticoloInProduzione(articolo, inc);
+    res.send(controller.get());
 })
 
 app.post("/articoli/magazzino", checkAuthentication, (req, res) => {
-    res.send(req.body);
+    let articolo = req.body.articolo;
+    let inc = req.body.incremento;
+    controller.incArticoloInMagazzino(articolo, inc);
+    res.send(controller.get());
 })
 
 app.get("/richieste", checkAuthentication, (req, res) => {
@@ -139,8 +145,8 @@ app.get("/richieste", checkAuthentication, (req, res) => {
 })
 
 app.post("/richieste", checkAuthentication, (req, res) => {
-    let nome = req.body.nome;
-    controller.addRichiesta(nome);
+    let richiesta = req.body.richiesta;
+    controller.addRichiesta(richiesta);
     res.send(controller.get());
 })
 
@@ -175,34 +181,52 @@ app.all('*', (req, res) => {
 })
 
 /*
- richiesta di modifica di un articolo
-    --> modifica alrticolo
-    --> raccoglibile
-    --> producibile
-    --> assegna
+richiesta incremento articolo in magazzino
+    --> modifica alrticolo *
+    --> conta articoli in deposito *
+    --> producibile *
+    --> reset articoli
+    --> reset albero
+    --> assegna *
     --> da produrre
     --> da raccogliere
-    --> richiesti 
+    --> richieste eseguibili 
     --> vista ad albero 
     --> code 
-    --> json
-    --> invio risposta
 
- richiesta di modifica di una richiesta 
-    --> modifica richiesta 
-    --> albero
+richiesta incremento articolo in produzione
+    --> modifica alrticolo
+    --> reset richiesti 
+    --> reset da produrre 
+    --> reset da raccogliere 
+    --> reset albero 
+    --> reset richieste eseguibili 
     --> assegna 
-    --> da produrre 
-    --> da raccogliere 
-    --> richiesti 
+    --> da produrre
+    --> da raccogliere
+    --> richieste eseguibili 
     --> vista ad albero 
     --> code 
-    --> json
-    --> invio risposta
+
+ richiesta di aggiunta di una richiesta 
+    --> aggiungi richiesta 
+    --> vista ad albero 
+
+ richiesta di incremento di un necessario di una richiesta 
+    --> modifica richiesta 
+    --> reset richiesti 
+    --> reset da produrre 
+    --> reset da raccogliere 
+    --> reset albero 
+    --> reset richieste eseguibili 
+    --> assegna 
+    --> da produrre
+    --> da raccogliere
+    --> richieste eseguibili 
+    --> vista ad albero 
+    --> code 
 
  richiesta di modifica del deposito 
     --> raccogliere 
     --> vista al albero 
-    --> json
-    --> invio risposta
  */

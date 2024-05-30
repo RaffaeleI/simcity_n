@@ -19,7 +19,7 @@ export class Articolo {
       fabbrica: this.fabbrica.nome,
       inMagazzino: this.inMagazzino.get(),
       inProduzione: this.inProduzione.get(),
-      richiest: this.richiesti,
+      richiesta: this.richiesti.get(),
       producibile: this.isProducibile,
       raccoglibile: this.isRaccoglibile(),
       daProdurre: this.isDaProdurre,
@@ -42,12 +42,19 @@ export class Articolo {
   }
 
   incInProduzione(inc: number): void {
-    if (this.fabbrica.fabbricabile && inc != 0) {
+    if (this.fabbrica.fabbricabile && inc !== 0) {
       this.inProduzione.inc(inc);
     }
   }
 
   isRaccoglibile(): boolean {
     return this.inProduzione.get() > 0;
+  }
+
+  reset() {
+    this.richiesti.set(0);
+    this.isProducibile = false;
+    this.isDaProdurre = false;
+    this.isDaRaccogliere = false;
   }
 }
