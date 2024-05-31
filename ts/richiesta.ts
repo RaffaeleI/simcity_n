@@ -5,8 +5,9 @@ import { Counter } from "./counter";
 import { regola } from "./regola";
 
 export class Richiesta {
-  private articoliRichiesta: ArticoloRichiesta[] = [];
+  public articoliRichiesta: ArticoloRichiesta[] = [];
   public albero: Nodo | undefined = undefined;
+  public vista: Nodo | undefined = undefined;
 
   constructor(private nome: String, private articoli: Articolo[]) {
     this.articoliRichiesta = articoli.map((art) => {
@@ -79,17 +80,61 @@ export class Richiesta {
   private creaAlberoR(articolo: Articolo): Nodo | undefined {
     let radice: Nodo | undefined = undefined;
     let nodo: Nodo | undefined = undefined;
-    if (articolo) {
-      this.articoli.forEach((nec) => {
-        for (let i = 0; i < regola(articolo.getNome(), nec.getNome()); i++) {
-          nodo = radice;
-          radice = this.creaAlberoR(nec);
-          if (radice) radice.fratello = nodo;
-        }
-      });
-      nodo = radice;
-      radice = new Nodo(articolo, nodo);
+    this.articoli.forEach((nec) => {
+      for (let i = 0; i < regola(articolo.getNome(), nec.getNome()); i++) {
+        nodo = radice;
+        radice = this.creaAlberoR(nec);
+        if (radice) radice.fratello = nodo;
+      }
+    });
+    nodo = radice;
+    radice = new Nodo(articolo, nodo);
+    return radice;
+  }
+
+  creaVista(): void {
+    this.vista = this.creaVistaR(this.albero);
+  }
+
+  private creaVistaR(nodo: Nodo | undefined): Nodo | undefined {
+    let radice: Nodo | undefined = undefined;
+    let fi: Nodo | undefined = undefined;
+    let fr: Nodo | undefined = undefined;
+    if (nodo) {
+      fr = this.creaVistaR(nodo.fratello);
+      if (!nodo.inMagazzino && !nodo.inProduzione)
+        fi = this.creaVistaR(nodo.figlio);
+      radice = new Nodo(nodo.articolo, fi);
+      radice.inMagazzino = nodo.inMagazzino;
+      radice.inProduzione = nodo.inProduzione;
+      radice.fratello = fr;
     }
     return radice;
+  }
+
+  get() {
+    let vista = undefined;
+    if (this.vista) vista = this.vista.get();
+    return {
+      nome: this.getNome(),
+      eseguibile: this.isEseguibile(),
+      daEseguire: this.isDaEseguire(),
+      necessari: this.articoliRichiesta
+        .filter((el) => el.necessari.get() > 0)
+        .map((articolo) => {
+          return {
+            articolo: articolo.articolo.getNome(),
+            necessari: articolo.necessari.get(),
+          };
+        }),
+      ottenuti: this.articoliRichiesta
+        .filter((el) => el.ottenuti.get() > 0)
+        .map((articolo) => {
+          return {
+            articolo: articolo.articolo.getNome(),
+            ottenuti: articolo.ottenuti.get(),
+          };
+        }),
+    };
   }
 }

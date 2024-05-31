@@ -120,52 +120,96 @@ app.get("/login", (req, res) => {
 })
 
 app.post("/login", passport.authenticate('local', {
-    successRedirect: "/stato",
+    successRedirect: "/produzione",
     failureRedirect: "/login",
 }))
-
-/* app.post("/articoli/produzione", checkAuthentication, (req, res) => {
-    let articolo = req.body.articolo;
-    let inc = req.body.incremento;
-    controller.incArticoloInProduzione(articolo, inc);
-    res.send(controller.get());
-})
 
 app.post("/articoli/magazzino", checkAuthentication, (req, res) => {
     let articolo = req.body.articolo;
     let inc = req.body.incremento;
-    controller.incArticoloInMagazzino(articolo, inc);
+    const start = Date.now();
+    try {
+        controller.incArticoloMagazzino(articolo, inc);
+    } catch (error) {
+        console.log(error);
+        console.log("Bad request! " + articolo + ": incremento " + inc + " del magazzino");
+    }
+    console.log("Incremento magazzino. Eseguito in: " + (Date.now() - start) + " millisecondi");
     res.send(controller.get());
 })
+
+app.post("/articoli/produzione", checkAuthentication, (req, res) => {
+    let articolo = req.body.articolo;
+    let inc = req.body.incremento;
+    const start = Date.now();
+    try {
+        controller.incArticoloProduzione(articolo, inc);
+    } catch (error) {
+        console.log(error);
+        console.log("Bad request! " + articolo + ": incremento " + inc + " della produzione");
+    }
+    console.log("Incremento articolo. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+app.post("/richiesta", checkAuthentication, (req, res) => {
+    let richiesta = req.body.richiesta;
+    const start = Date.now();
+    controller.addRichiesta(richiesta);
+    console.log("Aggiunta richiesta. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+app.delete("/richiesta", checkAuthentication, (req, res) => {
+    let richiesta = req.body.richiesta;
+    const start = Date.now();
+    controller.deleteRichiesta(richiesta);
+    console.log("Elimina richiesta. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+app.patch("/richiesta/necessario", checkAuthentication, (req, res) => {
+    let richiesta = req.body.richiesta;
+    let necessario = req.body.necessario;
+    let incremento = req.body.incremento;
+    const start = Date.now();
+    try {
+        controller.incArticoloNecessario(richiesta, necessario, incremento);
+    } catch (error) {
+        console.log(error);
+        console.log("Bad request! " + richiesta + " " + articolo + ": incremento " + inc + " necessario");
+    }
+    console.log("Incremento neccessario. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+app.patch("/richiesta/ottenuto", checkAuthentication, (req, res) => {
+    let richiesta = req.body.richiesta;
+    let necessario = req.body.necessario;
+    let incremento = req.body.incremento;
+    const start = Date.now();
+    try {
+        controller.incArticoloOttenuto(richiesta, necessario, incremento);
+    } catch (error) {
+        console.log(error);
+        console.log("Bad request! " + richiesta + " " + articolo + ": incremento " + inc + " necessario");
+    }
+    console.log("Incremento ottenuto. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+
+
+/*
+
 
 app.get("/richieste", checkAuthentication, (req, res) => {
     res.send("Ok");
 })
 
-app.post("/richieste", checkAuthentication, (req, res) => {
-    let richiesta = req.body.richiesta;
-    controller.addRichiesta(richiesta);
-    res.send(controller.get());
-})
-
-app.delete("/richieste", checkAuthentication, (req, res) => {
-    res.send(req.body);
-})
-
-app.patch("/richieste/necessari", checkAuthentication, (req, res) => {
-    let richiesta = req.body.richiesta;
-    let necessario = req.body.necessario;
-    let incremento = req.body.incremento;
-    controller.incArticoloNecessario(richiesta, necessario, incremento);
-    res.send(controller.get());
-})
-
-app.patch("/richieste/ottenuti", checkAuthentication, (req, res) => {
-    res.send(req.body);
-})
  */
-app.get("/stato", checkAuthentication, (req, res) => {
-    res.send("Ok!");
+app.get("/produzione", checkAuthentication, (req, res) => {
+    res.send(controller.get());
 })
 
 app.get('/logout', function (req, res, next) {
