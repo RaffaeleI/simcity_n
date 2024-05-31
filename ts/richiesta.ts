@@ -1,27 +1,16 @@
-import { creaAlbero } from "./albero";
-import { Articolo } from "./articolo";
-import { Counter } from "./counter";
 import { Nodo } from "./nodo";
+import { Articolo } from "./articolo";
+import { ArticoloRichiesta } from "./articoloRichiesta";
+import { Counter } from "./counter";
+import { regola } from "./regola";
 
 export class Richiesta {
-  public eseguibile: boolean = true;
-  private nome: String = "";
-  private arts: {
-    articolo: Articolo;
-    necessari: Counter;
-    ottenuti: Counter;
-  }[] = [];
-  public tree: Nodo | undefined = undefined;
+  private articoliRichiesta: ArticoloRichiesta[] = [];
+  public albero: Nodo | undefined = undefined;
 
-  constructor(nome: String, private articoli: Articolo[]) {
-    if (!nome || nome === "") throw new Error("Nome non valido: " + nome);
-    this.nome = nome.toUpperCase();
-    this.arts = articoli.map((el) => {
-      return {
-        articolo: el,
-        necessari: new Counter(),
-        ottenuti: new Counter(),
-      };
+  constructor(private nome: String, private articoli: Articolo[]) {
+    this.articoliRichiesta = articoli.map((art) => {
+      return new ArticoloRichiesta(art, new Counter(), new Counter());
     });
   }
 
@@ -29,56 +18,78 @@ export class Richiesta {
     return this.nome;
   }
 
-  getNecessari(articolo: Articolo): number {
-    let value = 0;
-    let art = this.arts.find((el) => el.articolo === articolo);
-    if (art) value = art.necessari.get();
-    return value;
-  }
-
-  getOttenuti(articolo: Articolo): number {
-    let value = 0;
-    let art = this.arts.find((el) => el.articolo === articolo);
-    if (art) value = art.ottenuti.get();
-    return value;
-  }
-
-  incNecessari(articolo: Articolo, value: number): void {
-    let art = this.arts.find((el) => el.articolo === articolo);
-    if (art) {
-      art.necessari.inc(value);
-      creaAlbero(this, this.articoli);
+  incNecessario(nome: string, inc: number): void {
+    let articoloRichiesta = this.articoliRichiesta.find(
+      (el) => el.articolo.getNome() === nome
+    );
+    if (articoloRichiesta) {
+      articoloRichiesta.necessari.inc(inc);
+      this.creaAlbero();
     }
   }
 
-  incOttenuti(articolo: Articolo, value: number): void {
-    let art = this.arts.find((el) => el.articolo === articolo);
-    if (art) art.ottenuti.inc(value);
+  incOttenuto(nome: string, inc: number): void {
+    let articoloRichiesta = this.articoliRichiesta.find(
+      (el) => el.articolo.getNome() === nome
+    );
+    if (articoloRichiesta) articoloRichiesta.ottenuti.inc(inc);
   }
 
-  get(): any {
-    //let view = undefined;
-    //if (this.tree) view = this.tree.get();
-    return {
-      nome: this.nome,
-      eseguibile: this.eseguibile,
-      necessari: this.arts
-        .filter((el) => el.necessari.get() !== 0)
-        .map((nec) => {
-          return {
-            articolo: nec.articolo.nome,
-            valore: nec.necessari.get(),
-          };
-        }),
-      ottenuti: this.arts
-        .filter((el) => el.ottenuti.get() !== 0)
-        .map((nec) => {
-          return {
-            articolo: nec.articolo.nome,
-            valore: nec.ottenuti.get(),
-          };
-        }),
-      //view: view,
-    };
+  isEseguibile(): boolean {
+    let eseguibile = true;
+    this.articoliRichiesta.forEach(
+      (el) =>
+        (eseguibile =
+          eseguibile && el.articolo.getMagazzino() >= el.necessari.get())
+    );
+    return eseguibile;
+  }
+
+  isDaEseguire(): boolean {
+    let eseguibile = true;
+    if (this.albero) {
+      let nodo: Nodo | undefined = this.albero;
+      while (nodo && eseguibile) {
+        eseguibile = eseguibile && nodo.isFigliInMagazzino();
+        nodo = nodo.fratello;
+      }
+    }
+    return eseguibile;
+  }
+
+  esegui() {
+    if (this.isEseguibile())
+      this.articoliRichiesta.forEach((el) =>
+        el.articolo.incMagazzino(-el.necessari.get())
+      );
+  }
+
+  private creaAlbero() {
+    let nodo: Nodo | undefined = undefined;
+    this.albero = undefined;
+    this.articoliRichiesta.forEach((el) => {
+      for (let i = 0; i < el.necessari.get(); i++) {
+        nodo = this.albero;
+        this.albero = this.creaAlberoR(el.articolo);
+        if (this.albero) this.albero.fratello = nodo;
+      }
+    });
+  }
+
+  private creaAlberoR(articolo: Articolo): Nodo | undefined {
+    let radice: Nodo | undefined = undefined;
+    let nodo: Nodo | undefined = undefined;
+    if (articolo) {
+      this.articoli.forEach((nec) => {
+        for (let i = 0; i < regola(articolo.getNome(), nec.getNome()); i++) {
+          nodo = radice;
+          radice = this.creaAlberoR(nec);
+          if (radice) radice.fratello = nodo;
+        }
+      });
+      nodo = radice;
+      radice = new Nodo(articolo, nodo);
+    }
+    return radice;
   }
 }

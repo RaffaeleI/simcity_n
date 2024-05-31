@@ -1,19 +1,41 @@
+import { Articolo } from "./articolo";
 import { Counter } from "./counter";
 
 export class Fabbrica {
+  private coda = new Counter();
+  public next: Articolo | undefined = undefined;
   constructor(
-    public nome: String,
-    public fabbricabile: boolean,
-    public stagionale: boolean,
-    public coda: Counter
-  ) {}
+    private nome: String,
+    private fabbricabile: boolean,
+    private stagionale: boolean,
+    coda: number
+  ) {
+    if (!nome || nome === "")
+      throw new Error("Nome fabbrica non valido: " + nome);
+    try {
+        this.coda.set(coda);
+    } catch {
+        throw new Error("Dimensione coda non valida: " + coda);
+    }
+  }
 
-  get(): any {
-    return {
-      nome: this.nome,
-      fabbricabile: this.fabbricabile,
-      stagionale: this.stagionale,
-      coda: this.coda.get(),
-    };
+  getNome(): String {
+    return this.nome;
+  }
+
+  isFabbricabile(): boolean {
+    return this.fabbricabile;
+  }
+
+  isStagionale(): boolean {
+    return this.stagionale;
+  }
+
+  getCoda(): number {
+    return this.coda.get();
+  }
+
+  incCoda(inc: number){
+    this.coda.inc(inc);
   }
 }

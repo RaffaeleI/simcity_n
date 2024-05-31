@@ -1,8 +1,8 @@
-const Controller = require( './js/controller.js')
+const Controller = require('./js/controller')
 
 const express = require('express')
 const app = express()
-const fs = require('fs/promises')
+// const fs = require('fs/promises')
 
 const session = require('express-session')
 const passport = require('passport')
@@ -12,10 +12,10 @@ const articoliFile = "./json/articoli.json";
 const fabbricheFile = "./json/fabbriche.json";
 const depositoFile = "./json/deposito.json";
 
-let controller = new Controller.Controller(articoliFile, fabbricheFile, depositoFile);
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+const controller = new Controller.Controller(fabbricheFile, articoliFile, depositoFile);
 
 //Middleware
 app.use(session({
@@ -106,7 +106,14 @@ printData = (req, res, next) => {
 
 // app.use(printData) //user printData function as middleware to print populated variables
 
-app.listen(3001, () => console.log(`Server started on port 3001...`))
+function checkAuthentication(req, res, next) {
+    if (req.isAuthenticated()) {
+        //req.isAuthenticated() will return true if user is logged in
+        next();
+    } else {
+        res.redirect("/login");
+    }
+}
 
 app.get("/login", (req, res) => {
     res.send('<h1> Login </h1><form action="/login" method="POST">USER <input type="text" name="username">PASSWORD <input type="password" name="password"><button type="submit"> Submit </button></form>');
@@ -117,16 +124,7 @@ app.post("/login", passport.authenticate('local', {
     failureRedirect: "/login",
 }))
 
-function checkAuthentication(req, res, next) {
-    if (req.isAuthenticated()) {
-        //req.isAuthenticated() will return true if user is logged in
-        next();
-    } else {
-        res.redirect("/login");
-    }
-}
-
-app.post("/articoli/produzione", checkAuthentication, (req, res) => {
+/* app.post("/articoli/produzione", checkAuthentication, (req, res) => {
     let articolo = req.body.articolo;
     let inc = req.body.incremento;
     controller.incArticoloInProduzione(articolo, inc);
@@ -165,9 +163,9 @@ app.patch("/richieste/necessari", checkAuthentication, (req, res) => {
 app.patch("/richieste/ottenuti", checkAuthentication, (req, res) => {
     res.send(req.body);
 })
-
+ */
 app.get("/stato", checkAuthentication, (req, res) => {
-    res.send(controller.get());
+    res.send("Ok!");
 })
 
 app.get('/logout', function (req, res, next) {
@@ -179,6 +177,8 @@ app.get('/logout', function (req, res, next) {
 app.all('*', (req, res) => {
     res.redirect('/stato');
 })
+
+app.listen(3001, () => console.log(`Server started on port 3001...`))
 
 /*
 richiesta incremento articolo in magazzino

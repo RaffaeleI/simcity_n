@@ -2,59 +2,32 @@ import { Counter } from "./counter";
 import { Fabbrica } from "./fabbrica";
 
 export class Articolo {
-  private inMagazzino: Counter = new Counter();
-  private inProduzione: Counter = new Counter();
-
-  public isProducibile: boolean = false;
-  public isDaProdurre: boolean = false;
-  public isDaRaccogliere: boolean = false;
-
+  private magazzino: Counter = new Counter();
+  private produzione: Counter = new Counter();
   public richiesti: Counter = new Counter();
+  constructor(private nome: String, private fabbrica: Fabbrica) {}
 
-  constructor(public nome: String, public fabbrica: Fabbrica) {}
-
-  get(): any {
-    return {
-      nome: this.nome,
-      fabbrica: this.fabbrica.nome,
-      inMagazzino: this.inMagazzino.get(),
-      inProduzione: this.inProduzione.get(),
-      richiesta: this.richiesti.get(),
-      producibile: this.isProducibile,
-      raccoglibile: this.isRaccoglibile(),
-      daProdurre: this.isDaProdurre,
-      daRaccogliere: this.isDaRaccogliere,
-    };
+  getNome(): String {
+    return this.nome;
   }
 
-  getInMagazzino(): number {
-    return this.inMagazzino.get();
+  getFabbrica(): Fabbrica {
+    return this.fabbrica;
   }
 
-  getInProduzione(): number {
-    return this.inProduzione.get();
+  getMagazzino(): number {
+    return this.magazzino.get();
   }
 
-  incInMagazzino(inc: number): void {
-    if (inc != 0) {
-      this.inMagazzino.inc(inc);
-    }
+  getProduzione(): number {
+    return this.produzione.get();
   }
 
-  incInProduzione(inc: number): void {
-    if (this.fabbrica.fabbricabile && inc !== 0) {
-      this.inProduzione.inc(inc);
-    }
+  incMagazzino(inc: number): void {
+    this.magazzino.inc(inc);
   }
 
-  isRaccoglibile(): boolean {
-    return this.inProduzione.get() > 0;
-  }
-
-  reset() {
-    this.richiesti.set(0);
-    this.isProducibile = false;
-    this.isDaProdurre = false;
-    this.isDaRaccogliere = false;
+  incProduzione(inc: number): void {
+    this.produzione.inc(inc);
   }
 }

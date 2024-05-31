@@ -1,99 +1,89 @@
-import { Articolo } from "./articolo";
+import { readFileSync } from "fs";
 import { Fabbrica } from "./fabbrica";
+import { Articolo } from "./articolo";
 import { Counter } from "./counter";
-import { readArticoli, readDeposito, readFabbriche } from "./readfile";
 import { Richiesta } from "./richiesta";
 import { regola } from "./regola";
 import { Nodo } from "./nodo";
 
 export class Controller {
-  private articoli: Articolo[] = [];
   private fabbriche: Fabbrica[] = [];
+  private articoli: Articolo[] = [];
   private deposito: Counter = new Counter();
   private richieste: Richiesta[] = [];
 
   constructor(
-    articoliFile: string,
     fabbricheFile: string,
+    articoliFile: string,
     depositoFile: string
   ) {
-    this.readFiles(articoliFile, fabbricheFile, depositoFile);
-  }
-
-  private async readFiles(
-    articoliFile: string,
-    fabbricheFile: string,
-    depositoFile: string
-  ) {
-    this.fabbriche = await readFabbriche(fabbricheFile);
-    this.articoli = await readArticoli(articoliFile, this.fabbriche);
-    this.deposito = await readDeposito(depositoFile);
-  }
-
-  get(): any {
-    return {
-      articoli: this.articoli.map((art) => {
-        return art.get();
-      }),
-      fabbriche: this.fabbriche.map((el) => {
-        return el.get();
-      }),
-      deposito: this.deposito.get(),
-      richieste: this.richieste.map((el) => {
-        return el.get();
-      }),
-    };
-  }
-
-  incArticoloInProduzione(nome: string, inc: number): void {
-    if (inc !== 0) {
-      let articolo = this.getArticolo(nome);
-      if (articolo) {
-        articolo.incInProduzione(inc);
-        this.resetArticoli();
-        this.resetAlbero();
-        this.assegnaArticoli();
-        // this.setDaProdurre();
-        // this.setDaRaccogliere();
-        // this.setRichiesteEseguibili();
+    this.fabbriche = JSON.parse(readFileSync(fabbricheFile).toString()).map(
+      (el: {
+        nome: String;
+        fabbricabile: boolean;
+        stagionale: boolean;
+        coda: number;
+      }) => {
+        return new Fabbrica(el.nome, el.fabbricabile, el.stagionale, el.coda);
       }
+    );
+    this.fabbriche = JSON.parse(readFileSync(articoliFile).toString()).map(
+      (el: { fabbrica: String; nome: String }) => {
+        let fabbrica = this.getFabbrica(el.fabbrica);
+        if (fabbrica) return new Articolo(el.nome, fabbrica);
+      }
+    );
+    this.deposito.set(
+      Number.parseInt(
+        JSON.parse(readFileSync(depositoFile).toString()).deposito
+      )
+    );
+  }
+
+  incArticoloMagazzino(nome: string, inc: number): void {
+    let articolo = this.getArticolo(nome);
+    if (articolo) {
+      articolo.incMagazzino(inc);
+      this.assegnaArticoli();
     }
   }
 
-  incArticoloInMagazzino(nome: string, inc: number): void {
-    if (inc != 0) {
-      let articolo = this.getArticolo(nome);
-      if (articolo) {
-        articolo.incInProduzione(inc);
-        this.setArticoloProducibile();
-        this.resetArticoli();
-        this.resetAlbero();
-        this.assegnaArticoli();
-        // this.setDaProdurre();
-        // this.setDaRaccogliere();
-        // this.setRichiesteEseguibili();
-        
-      }
+  incArticoloProduzione(nome: string, inc: number): void {
+    let articolo = this.getArticolo(nome);
+    if (articolo) {
+      articolo.incProduzione(inc);
+      this.assegnaArticoli();
     }
   }
 
   addRichiesta(nome: String): void {
     if (nome && nome !== "") {
-      let ric = this.richieste.find(
-        (el) => el.getNome() === nome.toUpperCase()
+      let richiesta = this.richieste.find(
+        (ric) => ric.getNome() === nome.toUpperCase()
       );
-      if (!ric) {
+      if (!richiesta) {
         this.richieste.push(new Richiesta(nome.toUpperCase(), this.articoli));
       }
     }
   }
 
-  removeRichiesta(nome: String): void {
-    let index = this.richieste.findIndex(
-      (el) => el.getNome() === nome.toUpperCase()
-    );
-    if (index >= 0) {
-      this.richieste.splice(index, 1);
+  deleteRichiesta(nome: String): void {
+    if (nome) {
+      let index = this.richieste.findIndex(
+        (el) => el.getNome() === nome.toUpperCase()
+      );
+      if (index >= 0) {
+        this.richieste.splice(index, 1);
+        this.assegnaArticoli();
+      }
+    }
+  }
+
+  eseguiRichiesta(nome: string): void {
+    let richiesta = this.getRichiesta(nome);
+    if (richiesta) {
+      richiesta.esegui();
+      this.assegnaArticoli();
     }
   }
 
@@ -104,26 +94,12 @@ export class Controller {
     this.moveRichiesta(index, index - 1);
   }
 
-  downRichiesta(nome: String): void {
+  downRisposta(nome: string): void {
     let index = this.richieste.findIndex(
       (el) => el.getNome() === nome.toUpperCase()
     );
     this.moveRichiesta(index, index + 1);
   }
-
-  incArticoloNecessario(
-    richiesta: String,
-    necessario: String,
-    incremento: number
-  ): void {
-    let ric = this.getRichiesta(richiesta);
-    let nec = this.getArticolo(necessario);
-    if (ric && nec) {
-      ric.incNecessari(nec, incremento);
-    }
-  }
-
-  eseguiRichiesta(nome: String): void {}
 
   private moveRichiesta(index: number, position: number): void {
     if (
@@ -133,117 +109,54 @@ export class Controller {
       position < this.richieste.length &&
       index !== position
     ) {
-      let ric = this.richieste[index];
+      let richiesta = this.richieste[index];
       this.richieste[index] = this.richieste[position];
-      this.richieste[position] = ric;
+      this.richieste[position] = richiesta;
+      this.assegnaArticoli();
     }
-  }
-
-  incDeposito(inc: number): void {
-    if (inc != 0) {
-      this.deposito.inc(inc);
-    }
-  }
-
-  raccogliArticolo(nome: String): void {
-    let articolo = this.getArticolo(nome);
-    if (articolo) {
-      if (articolo.isProducibile) {
-        articolo.incInProduzione(-1);
-        articolo.incInMagazzino(1);
-      }
-    }
-  }
-
-  produciArticolo(nome: String): void {
-    let articolo = this.getArticolo(nome);
-    if (articolo) {
-      if (articolo.isProducibile) {
-        this.articoli.forEach((el) => el.incInMagazzino(-regola(articolo, el)));
-        articolo.incInProduzione(1);
-      }
-    }
-  }
-
-  private setArticoloProducibile() {
-    this.articoli.forEach((art) => {
-      let producibile = false;
-      if (art.fabbrica.fabbricabile) {
-        producibile = true;
-        this.articoli.forEach((nec) => {
-          producibile = producibile && nec.getInMagazzino() >= regola(art, nec);
-        });
-      }
-      art.isProducibile = producibile;
-    });
   }
 
   private getArticolo(nome: String): Articolo | undefined {
-    let articolo: Articolo | undefined = undefined;
-    if (nome)
-      articolo = this.articoli.find((el) => el.nome === nome.toUpperCase());
-    return articolo;
+    return this.articoli.find(
+      (el) => el.getNome() === String(nome).toUpperCase()
+    );
+  }
+
+  private getFabbrica(nome: String): Fabbrica | undefined {
+    return this.fabbriche.find(
+      (el) => el.getNome() === String(nome).toUpperCase()
+    );
   }
 
   private getRichiesta(nome: String): Richiesta | undefined {
-    let richiesta: Richiesta | undefined = undefined;
-    if (nome)
-      richiesta = this.richieste.find(
-        (el) => el.getNome() === nome.toUpperCase()
-      );
-    return richiesta;
+    return this.richieste.find((el) => el.getNome() === nome.toUpperCase());
   }
 
-  private assegnaArticoli(): void {
+  private assegnaArticoli() {
+    this.articoli.forEach((articolo) => articolo.richiesti.set(0));
     this.richieste.forEach((richiesta) => {
-      this.assegnaArticoliR(richiesta.tree);
+      if (richiesta.albero) {
+        richiesta.albero.reset();
+        this.assegnaArticoliR(richiesta.albero);
+      }
     });
   }
 
-  private assegnaArticoliR(nodo: Nodo | undefined) {
+  assegnaArticoliR(nodo: Nodo | undefined) {
     if (nodo) {
-      if (nodo.articolo.getInMagazzino() > nodo.articolo.richiesti.get()) {
-        nodo.isInMagazzino = true;
+      if (nodo.articolo.getMagazzino() > nodo.articolo.richiesti.get()) {
+        nodo.inMagazzino = true;
+        nodo.articolo.richiesti.inc(1);
       } else if (
-        nodo.articolo.getInMagazzino() + nodo.articolo.getInProduzione() >
+        nodo.articolo.getMagazzino() + nodo.articolo.getProduzione() >
         nodo.articolo.richiesti.get()
       ) {
-        nodo.isInProduzione = true;
+        nodo.inProduzione = true;
+        nodo.articolo.richiesti.inc(1);
       } else {
         this.assegnaArticoliR(nodo.figlio);
       }
-      nodo.articolo.richiesti.inc(1);
       this.assegnaArticoliR(nodo.fratello);
     }
-  }
-
-  private resetArticoli(): void {
-    this.articoli.forEach((articolo) => articolo.reset()    );
-  }
-
-  private resetDaProdurre(): void {
-    this.articoli.forEach((articolo) => (articolo.isDaProdurre = false));
-  }
-
-  private resetDaRaccogliere(): void {
-    this.articoli.forEach((articolo) => (articolo.isDaRaccogliere = false));
-  }
-
-  private resetAlbero(): void {
-    this.richieste.forEach((richiesta) => {
-      if (richiesta.tree) richiesta.tree.reset();
-    });
-  }
-
-  private resetRichiesteEseguibili(): void {
-    this.richieste.forEach((richiesta) => {
-      richiesta.eseguibile = false;
-    });
-  }
-
-  private contaArticoliInDeposito(): number {
-    let count: number = 0;
-    this.articoli.forEach((articolo) => (count += articolo.getInMagazzino()));
-    return count;
   }
 }
