@@ -2,7 +2,7 @@ const Controller = require('./js/controller')
 
 const express = require('express')
 const app = express()
-// const fs = require('fs/promises')
+const port = 3000;
 
 const session = require('express-session')
 const passport = require('passport')
@@ -18,113 +18,123 @@ app.use(express.urlencoded({ extended: false }))
 const controller = new Controller.Controller(fabbricheFile, articoliFile, depositoFile);
 
 //Middleware
-app.use(session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: true,
-}))
+// app.use(session({
+//     secret: "secret",
+//     resave: false,
+//     saveUninitialized: true,
+// }))
 
-app.use(passport.initialize()) // init passport on every route call
-app.use(passport.session())    //allow passport to use "express-session"
+// app.use(passport.initialize()) // init passport on every route call
+// app.use(passport.session())    //allow passport to use "express-session"
 
-authUser = (user, password, done) => {
-    console.log(`Value of "User" in authUser function ----> ${user}`)         //passport will populate, user = req.body.username
-    console.log(`Value of "Password" in authUser function ----> ${password}`) //passport will popuplate, password = req.body.password
+var cors = require('cors');
+app.use(cors());
 
-    // Use the "user" and "password" to search the DB and match user/password to authenticate the user
-    // 1. If the user not found, done (null, false)
-    // 2. If the password does not match, done (null, false)
-    // 3. If user found and password match, done (null, user)
+// authUser = (user, password, done) => {
+//     console.log(`Value of "User" in authUser function ----> ${user}`)         //passport will populate, user = req.body.username
+//     console.log(`Value of "Password" in authUser function ----> ${password}`) //passport will popuplate, password = req.body.password
 
-
-    let authenticated_user = undefined//{ id: 123, name: "Kyle"} 
-    //Let's assume that DB search that user found and password matched for Kyle
-    if (user === "raffaele" && password === "1234") {
-        authenticated_user = { id: 1, name: "raffaele" }
-        return done(null, authenticated_user)
-    }
-
-    return done(null, false)
-}
+//     // Use the "user" and "password" to search the DB and match user/password to authenticate the user
+//     // 1. If the user not found, done (null, false)
+//     // 2. If the password does not match, done (null, false)
+//     // 3. If user found and password match, done (null, user)
 
 
-passport.use(new LocalStrategy(authUser))
+//     let authenticated_user = undefined//{ id: 123, name: "Kyle"} 
+//     //Let's assume that DB search that user found and password matched for Kyle
+//     if (user === "raffaele" && password === "1234") {
+//         console.log("authUser: autenticate");
+//         authenticated_user = { id: 1, name: user }
+//         return done(null, authenticated_user)
+//     }
 
-passport.serializeUser((user, done) => {
-    console.log(`--------> Serialize User`)
-    console.log(user)
-
-    done(null, user.id)
-
-    // Passport will pass the authenticated_user to serializeUser as "user" 
-    // This is the USER object from the done() in auth function
-    // Now attach using done (null, user.id) tie this user to the req.session.passport.user = {id: user.id}, 
-    // so that it is tied to the session object
-
-})
+//     return done(null, false)
+// }
 
 
-passport.deserializeUser((id, done) => {
-    console.log("---------> Deserialize Id")
-    console.log(id)
+// passport.use(new LocalStrategy(authUser))
 
-    done(null, { name: "raffaele", id: 1 })
+// passport.serializeUser((user, done) => {
+//     console.log(`--------> Serialize User`)
+//     console.log(user)
 
-    // This is the id that is saved in req.session.passport.{ user: "id"} during the serialization
-    // use the id to find the user in the DB and get the user object with user details
-    // pass the USER object in the done() of the de-serializer
-    // this USER object is attached to the "req.user", and can be used anywhere in the App.
+//     done(null, user.id)
 
-})
+//     // Passport will pass the authenticated_user to serializeUser as "user" 
+//     // This is the USER object from the done() in auth function
+//     // Now attach using done (null, user.id) tie this user to the req.session.passport.user = {id: user.id}, 
+//     // so that it is tied to the session object
+
+// })
+
+// const error = {
+//     state: "error"
+// }
+
+// passport.deserializeUser((id, done) => {
+//     console.log("---------> Deserialize Id")
+//     console.log(id)
+
+//     done(null, { name: "raffaele", id: id })
+
+//     // This is the id that is saved in req.session.passport.{ user: "id"} during the serialization
+//     // use the id to find the user in the DB and get the user object with user details
+//     // pass the USER object in the done() of the de-serializer
+//     // this USER object is attached to the "req.user", and can be used anywhere in the App.
+
+// })
 
 
 //Middleware to see how the params are populated by Passport
-let count = 1
+// let count = 1
 
-printData = (req, res, next) => {
-    console.log("\n==============================")
-    console.log(`------------>  ${count++}`)
+// printData = (req, res, next) => {
+//     console.log("\n==============================")
+//     console.log(`------------>  ${count++}`)
 
-    console.log(`req.body.username -------> ${req.body.username}`)
-    console.log(`req.body.password -------> ${req.body.password}`)
+//     console.log(`req.body.username -------> ${req.body.username}`)
+//     console.log(`req.body.password -------> ${req.body.password}`)
 
-    console.log(`\n req.session.passport -------> `)
-    console.log(req.session.passport)
+//     console.log(`\n req.session.passport -------> `)
+//     console.log(req.session.passport)
 
-    console.log(`\n req.user -------> `)
-    console.log(req.user)
+//     console.log(`\n req.user -------> `)
+//     console.log(req.user)
 
-    console.log("\n Session and Cookie")
-    console.log(`req.session.id -------> ${req.session.id}`)
-    console.log(`req.session.cookie -------> `)
-    console.log(req.session.cookie)
+//     console.log("\n Session and Cookie")
+//     console.log(`req.session.id -------> ${req.session.id}`)
+//     console.log(`req.session.cookie -------> `)
+//     console.log(req.session.cookie)
 
-    console.log("===========================================\n")
+//     console.log("===========================================\n")
 
-    next()
-}
+//     next()
+// }
 
-// app.use(printData) //user printData function as middleware to print populated variables
+//   app.use(printData) //user printData function as middleware to print populated variables
 
-function checkAuthentication(req, res, next) {
-    if (req.isAuthenticated()) {
-        //req.isAuthenticated() will return true if user is logged in
-        next();
-    } else {
-        res.redirect("/login");
-    }
-}
+// function checkAuthentication(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         //req.isAuthenticated() will return true if user is logged in
+//         next();
+//     } else {
+//         res.send(res);
+//     }
+// }
 
-app.get("/login", (req, res) => {
-    res.send('<h1> Login </h1><form action="/login" method="POST">USER <input type="text" name="username">PASSWORD <input type="password" name="password"><button type="submit"> Submit </button></form>');
-})
+//  app.get("/error", (req, res) => {
+//     //res.send('<h1> Login </h1><form action="/login" method="POST">USER <input type="text" name="username">PASSWORD <input type="password" name="password"><button type="submit"> Submit </button></form>');
+//     //res.send(controller.get());
+//     res.send(error);
+// })
 
-app.post("/login", passport.authenticate('local', {
-    successRedirect: "/produzione",
-    failureRedirect: "/login",
-}))
+// app.post("/login", passport.authenticate('local', {
+//     successRedirect: "/produzione",
+//     failureRedirect: "/error",
+//     failureFlash: true,
+// }))
 
-app.post("/articoli/magazzino", checkAuthentication, (req, res) => {
+app.post("/articoli/magazzino", /* checkAuthentication, */ (req, res) => {
     let articolo = req.body.articolo;
     let inc = req.body.incremento;
     const start = Date.now();
@@ -138,7 +148,7 @@ app.post("/articoli/magazzino", checkAuthentication, (req, res) => {
     res.send(controller.get());
 })
 
-app.post("/articoli/produzione", checkAuthentication, (req, res) => {
+app.post("/articoli/produzione", /* checkAuthentication, */ (req, res) => {
     let articolo = req.body.articolo;
     let inc = req.body.incremento;
     const start = Date.now();
@@ -152,7 +162,23 @@ app.post("/articoli/produzione", checkAuthentication, (req, res) => {
     res.send(controller.get());
 })
 
-app.post("/richiesta", checkAuthentication, (req, res) => {
+app.post("/richiesta/su", /* checkAuthentication, */ (req, res) => {
+    let richiesta = req.body.richiesta;
+    const start = Date.now();
+    controller.upRichiesta(richiesta);
+    console.log("Up richiesta. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+app.post("/richiesta/down", /* checkAuthentication, */ (req, res) => {
+    let richiesta = req.body.richiesta;
+    const start = Date.now();
+    controller.downRichiesta(richiesta);
+    console.log("Down richiesta. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+app.post("/richiesta", /* checkAuthentication, */ (req, res) => {
     let richiesta = req.body.richiesta;
     const start = Date.now();
     controller.addRichiesta(richiesta);
@@ -160,7 +186,7 @@ app.post("/richiesta", checkAuthentication, (req, res) => {
     res.send(controller.get());
 })
 
-app.delete("/richiesta", checkAuthentication, (req, res) => {
+app.delete("/richiesta", /* checkAuthentication, */ (req, res) => {
     let richiesta = req.body.richiesta;
     const start = Date.now();
     controller.deleteRichiesta(richiesta);
@@ -168,7 +194,7 @@ app.delete("/richiesta", checkAuthentication, (req, res) => {
     res.send(controller.get());
 })
 
-app.patch("/richiesta/necessario", checkAuthentication, (req, res) => {
+app.patch("/richiesta/necessario", /* checkAuthentication, */ (req, res) => {
     let richiesta = req.body.richiesta;
     let necessario = req.body.necessario;
     let incremento = req.body.incremento;
@@ -183,13 +209,13 @@ app.patch("/richiesta/necessario", checkAuthentication, (req, res) => {
     res.send(controller.get());
 })
 
-app.patch("/richiesta/ottenuto", checkAuthentication, (req, res) => {
+app.patch("/richiesta/ottenuto", /* checkAuthentication, */ (req, res) => {
     let richiesta = req.body.richiesta;
-    let necessario = req.body.necessario;
+    let ottenuto = req.body.ottenuto;
     let incremento = req.body.incremento;
     const start = Date.now();
     try {
-        controller.incArticoloOttenuto(richiesta, necessario, incremento);
+        controller.incArticoloOttenuto(richiesta, ottenuto, incremento);
     } catch (error) {
         console.log(error);
         console.log("Bad request! " + richiesta + " " + articolo + ": incremento " + inc + " necessario");
@@ -198,79 +224,18 @@ app.patch("/richiesta/ottenuto", checkAuthentication, (req, res) => {
     res.send(controller.get());
 })
 
-
-
-/*
-
-
-app.get("/richieste", checkAuthentication, (req, res) => {
-    res.send("Ok");
-})
-
- */
-app.get("/produzione", checkAuthentication, (req, res) => {
+app.get("/", /* checkAuthentication, */ (req, res) => {
     res.send(controller.get());
 })
 
-app.get('/logout', function (req, res, next) {
-    req.session.destroy(function (err) {
-        res.redirect('/login'); //Inside a callback… bulletproof!
-    });
-});
+// app.get('/logout', function (req, res, next) {
+//     req.session.destroy(function (err) {
+//         res.redirect('/login');
+//     });
+// });
 
 app.all('*', (req, res) => {
-    res.redirect('/stato');
+    res.send(controller.get());
 })
 
-app.listen(3001, () => console.log(`Server started on port 3001...`))
-
-/*
-richiesta incremento articolo in magazzino
-    --> modifica alrticolo *
-    --> conta articoli in deposito *
-    --> producibile *
-    --> reset articoli
-    --> reset albero
-    --> assegna *
-    --> da produrre
-    --> da raccogliere
-    --> richieste eseguibili 
-    --> vista ad albero 
-    --> code 
-
-richiesta incremento articolo in produzione
-    --> modifica alrticolo
-    --> reset richiesti 
-    --> reset da produrre 
-    --> reset da raccogliere 
-    --> reset albero 
-    --> reset richieste eseguibili 
-    --> assegna 
-    --> da produrre
-    --> da raccogliere
-    --> richieste eseguibili 
-    --> vista ad albero 
-    --> code 
-
- richiesta di aggiunta di una richiesta 
-    --> aggiungi richiesta 
-    --> vista ad albero 
-
- richiesta di incremento di un necessario di una richiesta 
-    --> modifica richiesta 
-    --> reset richiesti 
-    --> reset da produrre 
-    --> reset da raccogliere 
-    --> reset albero 
-    --> reset richieste eseguibili 
-    --> assegna 
-    --> da produrre
-    --> da raccogliere
-    --> richieste eseguibili 
-    --> vista ad albero 
-    --> code 
-
- richiesta di modifica del deposito 
-    --> raccogliere 
-    --> vista al albero 
- */
+app.listen(port, () => console.log(`Server started on port ${port}...`))

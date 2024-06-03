@@ -68,6 +68,7 @@ export class Articolo {
       stagionale: this.getFabbrica().isStagionale(),
       magazzino: this.getMagazzino(),
       produzione: this.getProduzione(),
+      richiesti: this.richiesti.get(),
       producibile: this.isProducibile(),
       raccoglibile: this.isRaccoglibile(),
       daProdurre: this.isDaProdurre(),
