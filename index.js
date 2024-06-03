@@ -162,6 +162,34 @@ app.post("/articoli/produzione", /* checkAuthentication, */ (req, res) => {
     res.send(controller.get());
 })
 
+app.post("/articoli/produci", /* checkAuthentication, */ (req, res) => {
+    let articolo = req.body.articolo;
+    const start = Date.now();
+    try {
+        controller.produci(articolo);
+    } catch (error) {
+        console.log(error);
+        console.log("Bad request! " + articolo + ": produzione ");
+    }
+    console.log("Produzione articolo. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+app.post("/articoli/raccogli", /* checkAuthentication, */ (req, res) => {
+    let articolo = req.body.articolo;
+    const start = Date.now();
+    try {
+        controller.raccogli(articolo);
+    } catch (error) {
+        console.log(error);
+        console.log("Bad request! " + articolo + ": raccolta ");
+    }
+    console.log("Raccolta articolo. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
+
+
 app.post("/richiesta/su", /* checkAuthentication, */ (req, res) => {
     let richiesta = req.body.richiesta;
     const start = Date.now();

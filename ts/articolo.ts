@@ -60,6 +60,13 @@ export class Articolo {
     this.daRaccogliere = false;
   }
 
+  raccogli() {
+    if(this.isRaccoglibile()){
+      this.incProduzione(-1);
+      this.incMagazzino(1);
+    }
+  }
+
   get()  {
     return {
       nome: this.getNome(),

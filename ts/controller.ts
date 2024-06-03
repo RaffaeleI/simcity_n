@@ -39,6 +39,28 @@ export class Controller {
         JSON.parse(readFileSync(depositoFile).toString()).deposito
       )
     );
+    this.setProducibile();
+  }
+
+  produci(nome: string) {
+    let articolo = this.getArticolo(nome);
+    if(articolo && articolo.isProducibile()){
+      this.articoli.forEach(el => {
+        el.incMagazzino(-regola(articolo.getNome(), el.getNome()))
+      })
+      articolo.incProduzione(1);
+      this.setProducibile();
+      this.assegnaArticoli();
+    }
+  }
+
+  raccogli(nome: string) {
+    let articolo = this.getArticolo(nome);
+    if(articolo){
+      articolo.raccogli();
+      this.setProducibile();
+      this.assegnaArticoli();
+    }
   }
 
   incArticoloMagazzino(nome: string, inc: number): void {
