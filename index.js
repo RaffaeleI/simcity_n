@@ -206,6 +206,14 @@ app.post("/richiesta/down", /* checkAuthentication, */ (req, res) => {
     res.send(controller.get());
 })
 
+app.post("/richiesta/esegui", /* checkAuthentication, */ (req, res) => {
+    let richiesta = req.body.richiesta;
+    const start = Date.now();
+    controller.eseguiRichiesta(richiesta);
+    console.log("Esegui richiesta. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
 app.post("/richiesta", /* checkAuthentication, */ (req, res) => {
     let richiesta = req.body.richiesta;
     const start = Date.now();

@@ -44,19 +44,23 @@ export class Controller {
 
   produci(nome: string) {
     let articolo = this.getArticolo(nome);
-    if(articolo && articolo.isProducibile()){
-      this.articoli.forEach(el => {
-        el.incMagazzino(-regola(articolo.getNome(), el.getNome()))
-      })
-      articolo.incProduzione(1);
-      this.setProducibile();
-      this.assegnaArticoli();
+    if (articolo) {
+      if (articolo.isProducibile()) {
+        this.articoli.forEach((el) => {
+          if (articolo) {
+            el.incMagazzino(-regola(articolo.getNome(), el.getNome()));
+          }
+        });
+        articolo.incProduzione(1);
+        this.setProducibile();
+        this.assegnaArticoli();
+      }
     }
   }
 
   raccogli(nome: string) {
     let articolo = this.getArticolo(nome);
-    if(articolo){
+    if (articolo) {
       articolo.raccogli();
       this.setProducibile();
       this.assegnaArticoli();
@@ -232,12 +236,10 @@ export class Controller {
     if (nodo) {
       if (nodo.articolo.getFabbrica().isFabbricabile() && !nodo.inMagazzino) {
         this.enqueueR(nodo.figlio);
-        nodo.articolo
-          .getFabbrica()
-          .coda.push({
-            nome: nodo.articolo.getNome(),
-            inProduzione: nodo.inProduzione,
-          });
+        nodo.articolo.getFabbrica().coda.push({
+          nome: nodo.articolo.getNome(),
+          inProduzione: nodo.inProduzione,
+        });
       }
       this.enqueueR(nodo.fratello);
     }
