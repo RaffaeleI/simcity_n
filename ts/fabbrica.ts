@@ -1,4 +1,3 @@
-import { isUndefined } from "util";
 import { Articolo } from "./articolo";
 import { Counter } from "./counter";
 
@@ -54,12 +53,6 @@ export class Fabbrica {
       fabbricabile: this.fabbricabile,
       stagionale: this.stagionale,
       size: this.size.get(),
-      nextDaProdurre: this.nextDaProdurre
-        ? this.nextDaProdurre.getNome()
-        : undefined,
-      nextDaRaccogliere: this.nextDaRaccogliere
-        ? this.nextDaRaccogliere.getNome()
-        : undefined,
       coda: this.coda
     };
   }
