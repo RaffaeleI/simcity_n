@@ -16,8 +16,8 @@ export class Fabbrica {
       throw new Error("Nome fabbrica non valido: " + nome);
     try {
       this.size.set(size);
-    } catch {
-      throw new Error("Dimensione coda non valida: " + size);
+    } catch(error) {
+      throw new Error(error + ". Dimensione coda non valida: " + size);
     }
   }
 
