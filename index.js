@@ -190,7 +190,7 @@ app.post("/articoli/raccogli", /* checkAuthentication, */ (req, res) => {
 
 
 
-app.post("/richiesta/su", /* checkAuthentication, */ (req, res) => {
+app.post("/richiesta/up", /* checkAuthentication, */ (req, res) => {
     let richiesta = req.body.richiesta;
     const start = Date.now();
     controller.upRichiesta(richiesta);

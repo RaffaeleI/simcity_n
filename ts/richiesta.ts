@@ -59,8 +59,7 @@ export class Richiesta {
   }
 
   esegui() {
-    if (this.isEseguibile())
-      this.articoliRichiesta.forEach((el) =>
+    this.articoliRichiesta.forEach((el) =>
         el.articolo.incMagazzino(-el.necessari.get())
       );
   }

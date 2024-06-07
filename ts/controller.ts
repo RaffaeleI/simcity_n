@@ -109,24 +109,29 @@ export class Controller {
 
   eseguiRichiesta(nome: string): void {
     let richiesta = this.getRichiesta(nome);
-    if (richiesta) {
+    if (richiesta && richiesta.isEseguibile()) {
       richiesta.esegui();
+      this.deleteRichiesta(nome);
       this.assegnaArticoli();
     }
   }
 
   upRichiesta(nome: String): void {
-    let index = this.richieste.findIndex(
-      (el) => el.getNome() === nome.toUpperCase()
-    );
-    this.moveRichiesta(index, index - 1);
+    if (nome) {
+      let index = this.richieste.findIndex(
+        (el) => el.getNome() === nome.toUpperCase()
+      );
+      this.moveRichiesta(index, index - 1);
+    }
   }
 
-  downRisposta(nome: string): void {
-    let index = this.richieste.findIndex(
-      (el) => el.getNome() === nome.toUpperCase()
-    );
-    this.moveRichiesta(index, index + 1);
+  downRichiesta(nome: String): void {
+    if (nome) {
+      let index = this.richieste.findIndex(
+        (el) => el.getNome() === nome.toUpperCase()
+      );
+      this.moveRichiesta(index, index + 1);
+    }
   }
 
   private moveRichiesta(index: number, position: number): void {
