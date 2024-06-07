@@ -119,7 +119,7 @@ export class Richiesta {
       eseguibile: this.isEseguibile(),
       daEseguire: this.isDaEseguire(),
       necessari: this.articoliRichiesta
-        .filter((el) => el.necessari.get() > 0)
+        //.filter((el) => el.necessari.get() > 0)
         .map((articolo) => {
           return {
             articolo: articolo.articolo.getNome(),
@@ -127,7 +127,7 @@ export class Richiesta {
           };
         }),
       ottenuti: this.articoliRichiesta
-        .filter((el) => el.ottenuti.get() > 0)
+        //.filter((el) => el.ottenuti.get() > 0)
         .map((articolo) => {
           return {
             articolo: articolo.articolo.getNome(),
