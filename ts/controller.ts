@@ -206,8 +206,7 @@ export class Controller {
         nodo.inMagazzino = true;
         nodo.articolo.richiesti.inc(1);
       } else if (
-        nodo.articolo.getMagazzino() + nodo.articolo.getProduzione() >
-        nodo.articolo.richiesti.get()
+        nodo.articolo.getMagazzino() + nodo.articolo.getProduzione() > nodo.articolo.richiesti.get()
       ) {
         nodo.inProduzione = true;
         nodo.articolo.richiesti.inc(1);
@@ -219,6 +218,7 @@ export class Controller {
           nodo.articolo.daRaccogliere = true;
         }
       } else {
+        nodo.articolo.richiesti.inc(1);
         this.assegnaArticoliR(nodo.figlio);
         if (!nodo.articolo.getFabbrica().nextDaProdurre) {
           nodo.articolo.getFabbrica().nextDaProdurre = nodo.articolo;
