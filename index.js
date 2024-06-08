@@ -146,6 +146,14 @@ app.patch("/richiesta/ottenuto", (req, res) => {
     res.send(controller.get());
 })
 
+app.post("/deposito", (req, res) => {
+    let incremento = req.body.incremento;
+    const start = Date.now();
+    controller.incDeposito(incremento);
+    console.log("Incremento deposito. Eseguito in: " + (Date.now() - start) + " millisecondi");
+    res.send(controller.get());
+})
+
 app.get("/", (req, res) => {
     res.send(controller.get());
 })

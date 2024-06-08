@@ -271,6 +271,11 @@ export class Controller {
       });
   }
 
+  incDeposito(incremento: number) {
+    this.deposito.inc(incremento);
+    this.assegnaArticoli();
+  }
+
   get() {
     return {
       articoli: this.articoli.map((articolo) => {
@@ -282,6 +287,7 @@ export class Controller {
       richieste: this.richieste.map((richiesta) => {
         return richiesta.get();
       }),
+      deposito: this.deposito.get(),
       vista: this.richieste
         .filter((el) => el.vista)
         .map((richiesta) => {
