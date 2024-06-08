@@ -4,10 +4,17 @@ import { ArticoloRichiesta } from "./articoloRichiesta";
 import { Counter } from "./counter";
 import { regola } from "./regola";
 
+class View {
+  public nome: string = "";
+  public inMagazzino: boolean = false;
+  public inProduzione: boolean = false;
+  public children: View[] | undefined;
+}
+
 export class Richiesta {
   public articoliRichiesta: ArticoloRichiesta[] = [];
   public albero: Nodo | undefined = undefined;
-  public vista: Nodo | undefined = undefined;
+  public vista: View | undefined;
 
   constructor(private nome: String, private articoli: Articolo[]) {
     this.articoliRichiesta = articoli.map((art) => {
@@ -60,8 +67,8 @@ export class Richiesta {
 
   esegui() {
     this.articoliRichiesta.forEach((el) =>
-        el.articolo.incMagazzino(-el.necessari.get())
-      );
+      el.articolo.incMagazzino(-el.necessari.get())
+    );
   }
 
   private creaAlbero() {
@@ -91,29 +98,43 @@ export class Richiesta {
     return radice;
   }
 
-  creaVista(): void {
+/*   creaVista(): void {
     this.vista = this.creaVistaR(this.albero);
   }
 
-  private creaVistaR(nodo: Nodo | undefined): Nodo | undefined {
-    let radice: Nodo | undefined = undefined;
-    let fi: Nodo | undefined = undefined;
-    let fr: Nodo | undefined = undefined;
+  private creaVistaR(nodo: Nodo | undefined): View {
+    let radice: View | undefined = undefined;
+    let fi: View[] | undefined;
+    let fr: View[] | undefined;
+    let brothers: View[] = [];
     if (nodo) {
+      let n: Nodo | undefined = nodo;
+      while(n) {
+        brothers.push(this.creaVistaR(n))
+        n = n.fratello;
+      }
+
+
       fr = this.creaVistaR(nodo.fratello);
       if (!nodo.inMagazzino && !nodo.inProduzione)
         fi = this.creaVistaR(nodo.figlio);
-      radice = new Nodo(nodo.articolo, fi);
+      radice = new View();
       radice.inMagazzino = nodo.inMagazzino;
       radice.inProduzione = nodo.inProduzione;
-      radice.fratello = fr;
+      if(fi && fi.length > 0) radice.children = fi;
+      else radice.children = undefined
+      brothers.push(radice);
+      if (fr)
+        fr.forEach((b: any) => {
+          brothers.push(b);
+        });
     }
-    return radice;
+    return brothers;
   }
 
-  get() {
-    let vista = undefined;
-    if (this.vista) vista = this.vista.get();
+ */  get() {
+    // let vista: View[] | undefined;
+    // if (this.vista) vista = this.vista;
     return {
       nome: this.getNome(),
       eseguibile: this.isEseguibile(),

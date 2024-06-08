@@ -195,9 +195,9 @@ export class Controller {
     this.richieste.forEach((richiesta) => {
       if (richiesta.albero) richiesta.albero.reset();
       this.assegnaArticoliR(richiesta.albero);
-      richiesta.creaVista();
+      //richiesta.creaVista();
     });
-    this.enqueue();
+    //this.enqueue();
   }
 
   assegnaArticoliR(nodo: Nodo | undefined) {
@@ -206,7 +206,8 @@ export class Controller {
         nodo.inMagazzino = true;
         nodo.articolo.richiesti.inc(1);
       } else if (
-        nodo.articolo.getMagazzino() + nodo.articolo.getProduzione() > nodo.articolo.richiesti.get()
+        nodo.articolo.getMagazzino() + nodo.articolo.getProduzione() >
+        nodo.articolo.richiesti.get()
       ) {
         nodo.inProduzione = true;
         nodo.articolo.richiesti.inc(1);
@@ -231,13 +232,13 @@ export class Controller {
     }
   }
 
-  private enqueue() {
+  /* private enqueue() {
     this.richieste.forEach((richiesta) => {
       this.enqueueR(richiesta.vista);
     });
   }
 
-  private enqueueR(nodo: Nodo | undefined) {
+  private enqueueR(nodo:  | undefined) {
     if (nodo) {
       if (nodo.articolo.getFabbrica().isFabbricabile() && !nodo.inMagazzino) {
         this.enqueueR(nodo.figlio);
@@ -248,7 +249,7 @@ export class Controller {
       }
       this.enqueueR(nodo.fratello);
     }
-  }
+  } */
 
   private contaArticoliInMagazzino(): number {
     let count = 0;
@@ -291,7 +292,10 @@ export class Controller {
       vista: this.richieste
         .filter((el) => el.vista)
         .map((richiesta) => {
-          return richiesta.vista?.get();
+          return {
+            richiesta: richiesta.getNome(),
+            albero: richiesta.vista,
+          };
         }),
     };
   }
