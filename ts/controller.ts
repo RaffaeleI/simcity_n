@@ -195,9 +195,9 @@ export class Controller {
     this.richieste.forEach((richiesta) => {
       if (richiesta.albero) richiesta.albero.reset();
       this.assegnaArticoliR(richiesta.albero);
-      //richiesta.creaVista();
+      richiesta.creaVista();
     });
-    //this.enqueue();
+    this.enqueue();
   }
 
   assegnaArticoliR(nodo: Nodo | undefined) {
@@ -232,13 +232,13 @@ export class Controller {
     }
   }
 
-  /* private enqueue() {
+   private enqueue() {
     this.richieste.forEach((richiesta) => {
-      this.enqueueR(richiesta.vista);
+      this.enqueueR(richiesta.albero);
     });
   }
 
-  private enqueueR(nodo:  | undefined) {
+  private enqueueR(nodo: Nodo | undefined) {
     if (nodo) {
       if (nodo.articolo.getFabbrica().isFabbricabile() && !nodo.inMagazzino) {
         this.enqueueR(nodo.figlio);
@@ -249,7 +249,7 @@ export class Controller {
       }
       this.enqueueR(nodo.fratello);
     }
-  } */
+  } 
 
   private contaArticoliInMagazzino(): number {
     let count = 0;
@@ -289,14 +289,15 @@ export class Controller {
         return richiesta.get();
       }),
       deposito: this.deposito.get(),
-      vista: this.richieste
-        .filter((el) => el.vista)
-        .map((richiesta) => {
-          return {
-            richiesta: richiesta.getNome(),
-            albero: richiesta.vista,
-          };
-        }),
+      vista:
+        this.richieste.length > 0
+          ? [{
+              name: "RICHIESTE",
+              children: this.richieste.map((richiesta) => {
+                return richiesta.vista;
+              }),
+            }]
+          : [{ name: "RICHIESTE" }],
     };
   }
 }

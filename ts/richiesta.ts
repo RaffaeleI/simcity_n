@@ -3,23 +3,18 @@ import { Articolo } from "./articolo";
 import { ArticoloRichiesta } from "./articoloRichiesta";
 import { Counter } from "./counter";
 import { regola } from "./regola";
-
-class View {
-  public nome: string = "";
-  public inMagazzino: boolean = false;
-  public inProduzione: boolean = false;
-  public children: View[] | undefined;
-}
+import { creaVista } from "./view";
 
 export class Richiesta {
   public articoliRichiesta: ArticoloRichiesta[] = [];
   public albero: Nodo | undefined = undefined;
-  public vista: View | undefined;
+  public vista: any;
 
   constructor(private nome: String, private articoli: Articolo[]) {
     this.articoliRichiesta = articoli.map((art) => {
       return new ArticoloRichiesta(art, new Counter(), new Counter());
     });
+    this.creaVista();
   }
 
   getNome(): String {
@@ -81,6 +76,7 @@ export class Richiesta {
         if (this.albero) this.albero.fratello = nodo;
       }
     });
+    this.creaVista();
   }
 
   private creaAlberoR(articolo: Articolo): Nodo | undefined {
@@ -98,43 +94,21 @@ export class Richiesta {
     return radice;
   }
 
-/*   creaVista(): void {
-    this.vista = this.creaVistaR(this.albero);
-  }
-
-  private creaVistaR(nodo: Nodo | undefined): View {
-    let radice: View | undefined = undefined;
-    let fi: View[] | undefined;
-    let fr: View[] | undefined;
-    let brothers: View[] = [];
-    if (nodo) {
-      let n: Nodo | undefined = nodo;
-      while(n) {
-        brothers.push(this.creaVistaR(n))
-        n = n.fratello;
-      }
-
-
-      fr = this.creaVistaR(nodo.fratello);
-      if (!nodo.inMagazzino && !nodo.inProduzione)
-        fi = this.creaVistaR(nodo.figlio);
-      radice = new View();
-      radice.inMagazzino = nodo.inMagazzino;
-      radice.inProduzione = nodo.inProduzione;
-      if(fi && fi.length > 0) radice.children = fi;
-      else radice.children = undefined
-      brothers.push(radice);
-      if (fr)
-        fr.forEach((b: any) => {
-          brothers.push(b);
-        });
+  creaVista(): void {
+    console.log(this.albero);
+    if (this.albero) {
+      this.vista = {
+        name: this.nome,
+        children: creaVista(this.albero),
+      };
+    } else {
+      this.vista = {
+        name: this.nome,
+      };
     }
-    return brothers;
   }
 
- */  get() {
-    // let vista: View[] | undefined;
-    // if (this.vista) vista = this.vista;
+  get() {
     return {
       nome: this.getNome(),
       eseguibile: this.isEseguibile(),
@@ -155,6 +129,7 @@ export class Richiesta {
             ottenuti: articolo.ottenuti.get(),
           };
         }),
+      vista: this.vista,
     };
   }
 }

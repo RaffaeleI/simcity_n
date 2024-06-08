@@ -307,7 +307,7 @@ export function regola(
       case "TAVOLO DA PING PONG": {
         if (necessario === "LEGNO") value = 4;
         else if (necessario === "MINERALI") value = 4;
-        else if (necessario === "TAVOLO") value = 1;
+        else if (necessario === "TAVOLI") value = 1;
         break;
       }
       case "BLOCCHI CON LETTERE": {
