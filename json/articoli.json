@@ -1,5 +1,25 @@
 [
     {
+        "nome": "PETROLIO GREZZO",
+        "fabbrica": "IMPIANTO PETROLIFERO"
+    },
+    {
+        "nome": "PESCE",
+        "fabbrica": "PESCHERIA"
+    },
+    {
+        "nome": "TESSUTO RICICLATO",
+        "fabbrica": "FABBRICA ECOLOGICA"
+    },
+    {
+        "nome": "SETA",
+        "fabbrica": "BOSCHETTO DI GELSI"
+    },
+    {
+        "nome": "COCCHI",
+        "fabbrica": "FATTORIA DI COCCHI"
+    },
+    {
         "nome": "METALLO",
         "fabbrica": "FABBRICA NANO-TECH"
     },
@@ -288,10 +308,6 @@
         "fabbrica": "NEGOZIO DI GIOCATTOLI"
     },
     {
-        "nome": "PETROLIO GREZZO",
-        "fabbrica": "IMPIANTO PETROLIFERO"
-    },
-    {
         "nome": "OLIO MOTORE",
         "fabbrica": "AUTORICAMBI"
     },
@@ -302,10 +318,6 @@
     {
         "nome": "MOTORE",
         "fabbrica": "AUTORICAMBI"
-    },
-    {
-        "nome": "PESCE",
-        "fabbrica": "PESCHERIA"
     },
     {
         "nome": "PESCE IN SCATOLA",
@@ -320,10 +332,6 @@
         "fabbrica": "MERCATO DEL PESCE"
     },
     {
-        "nome": "TESSUTO RICICLATO",
-        "fabbrica": "FABBRICA ECOLOGICA"
-    },
-    {
         "nome": "SACCHETTO RIUTILIZZABILE",
         "fabbrica": "NEGOZIO ECOLOGICO"
     },
@@ -336,10 +344,6 @@
         "fabbrica": "NEGOZIO ECOLOGICO"
     },
     {
-        "nome": "SETA",
-        "fabbrica": "BOSCHETTO DI GELSI"
-    },
-    {
         "nome": "CORDINO",
         "fabbrica": "NEGOZIO DI SETA"
     },
@@ -350,10 +354,6 @@
     {
         "nome": "VESTAGLIA",
         "fabbrica": "NEGOZIO DI SETA"
-    },
-    {
-        "nome": "COCCHI",
-        "fabbrica": "FATTORIA DI COCCHI"
     },
     {
         "nome": "OLIO DI COCCO",

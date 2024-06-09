@@ -241,7 +241,7 @@ export class Controller {
   private enqueueR(nodo: Nodo | undefined) {
     if (nodo) {
       if (nodo.articolo.getFabbrica().isFabbricabile() && !nodo.inMagazzino) {
-        this.enqueueR(nodo.figlio);
+        if(!nodo.inProduzione) this.enqueueR(nodo.figlio);
         nodo.articolo.getFabbrica().coda.push({
           nome: nodo.articolo.getNome(),
           inProduzione: nodo.inProduzione,
