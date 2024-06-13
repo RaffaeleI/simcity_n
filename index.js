@@ -2,11 +2,7 @@ const Controller = require('./js/controller')
 
 const express = require('express')
 const app = express()
-const port = 3000;
-
-const session = require('express-session')
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
+const port = process.env.port || 3000;
 
 const articoliFile = "./json/articoli.json";
 const fabbricheFile = "./json/fabbriche.json";
