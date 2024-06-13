@@ -158,4 +158,7 @@ app.all('*', (req, res) => {
     res.send(controller.get());
 })
 
-app.listen(port, () => console.log(`Server started on port ${port}...`))
+app.listen(port, () => {
+    console.log(`Server started on port ${port}...`);
+    console.log("Control-c to stop server");
+})
