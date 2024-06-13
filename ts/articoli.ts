@@ -1,4 +1,4 @@
-[
+export const ARTICOLI = [
     {
         "nome": "PETROLIO GREZZO",
         "fabbrica": "IMPIANTO PETROLIFERO"

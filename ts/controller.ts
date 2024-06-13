@@ -1,10 +1,12 @@
-import { readFileSync } from "fs";
 import { Fabbrica } from "./fabbrica";
 import { Articolo } from "./articolo";
 import { Counter } from "./counter";
 import { Richiesta } from "./richiesta";
 import { regola } from "./regola";
 import { Nodo } from "./nodo";
+import { ARTICOLI } from "./articoli";
+import { FABBRICHE } from "./fabbriche";
+import { DEPOSITO } from "./deposito";
 
 export class Controller {
   private fabbriche: Fabbrica[] = [];
@@ -13,32 +15,20 @@ export class Controller {
   private richieste: Richiesta[] = [];
   private contaDaRaccogliere: Counter = new Counter();
 
-  constructor(
-    fabbricheFile: string,
-    articoliFile: string,
-    depositoFile: string
-  ) {
-    this.fabbriche = JSON.parse(readFileSync(fabbricheFile).toString()).map(
+  constructor() {
+    this.fabbriche = FABBRICHE.map(
       (el: {
         nome: String;
         fabbricabile: boolean;
         stagionale: boolean;
         size: number;
-      }) => {
-        return new Fabbrica(el.nome, el.fabbricabile, el.stagionale, el.size);
-      }
+      }) => new Fabbrica(el.nome, el.fabbricabile, el.stagionale, el.size)
     );
-    this.articoli = JSON.parse(readFileSync(articoliFile).toString()).map(
-      (el: { fabbrica: String; nome: String }) => {
-        let fabbrica = this.getFabbrica(el.fabbrica);
-        if (fabbrica) return new Articolo(el.nome, fabbrica);
-      }
-    );
-    this.deposito.set(
-      Number.parseInt(
-        JSON.parse(readFileSync(depositoFile).toString()).deposito
-      )
-    );
+    this.articoli = ARTICOLI.map((el: { fabbrica: String; nome: String }) => {
+      let fabbrica = this.getFabbrica(el.fabbrica);
+      return new Articolo(el.nome, fabbrica);
+    });
+    this.deposito.set(DEPOSITO);
     this.setProducibile();
   }
 
@@ -172,20 +162,26 @@ export class Controller {
     }
   }
 
-  private getArticolo(nome: String): Articolo | undefined {
-    return this.articoli.find(
+  private getArticolo(nome: String): Articolo {
+    let a = this.articoli.find(
       (el) => el.getNome() === String(nome).toUpperCase()
     );
+    if (!a) throw new Error("Articolo non presente: " + nome);
+    return a;
   }
 
-  private getFabbrica(nome: String): Fabbrica | undefined {
-    return this.fabbriche.find(
+  private getFabbrica(nome: String): Fabbrica {
+    let f = this.fabbriche.find(
       (el) => el.getNome() === String(nome).toUpperCase()
     );
+    if (!f) throw new Error("Fabbrica non presente: " + nome);
+    return f;
   }
 
-  private getRichiesta(nome: String): Richiesta | undefined {
-    return this.richieste.find((el) => el.getNome() === nome.toUpperCase());
+  private getRichiesta(nome: String): Richiesta {
+    let r = this.richieste.find((el) => el.getNome() === nome.toUpperCase());
+    if (!r) throw new Error("Richiesta non presente :" + nome);
+    return r;
   }
 
   private assegnaArticoli() {
@@ -232,7 +228,7 @@ export class Controller {
     }
   }
 
-   private enqueue() {
+  private enqueue() {
     this.richieste.forEach((richiesta) => {
       this.enqueueR(richiesta.albero);
     });
@@ -241,7 +237,7 @@ export class Controller {
   private enqueueR(nodo: Nodo | undefined) {
     if (nodo) {
       if (nodo.articolo.getFabbrica().isFabbricabile() && !nodo.inMagazzino) {
-        if(!nodo.inProduzione) this.enqueueR(nodo.figlio);
+        if (!nodo.inProduzione) this.enqueueR(nodo.figlio);
         nodo.articolo.getFabbrica().coda.push({
           nome: nodo.articolo.getNome(),
           inProduzione: nodo.inProduzione,
@@ -249,7 +245,7 @@ export class Controller {
       }
       this.enqueueR(nodo.fratello);
     }
-  } 
+  }
 
   private contaArticoliInMagazzino(): number {
     let count = 0;
@@ -291,12 +287,14 @@ export class Controller {
       deposito: this.deposito.get(),
       vista:
         this.richieste.length > 0
-          ? [{
-              name: "RICHIESTE",
-              children: this.richieste.map((richiesta) => {
-                return richiesta.vista;
-              }),
-            }]
+          ? [
+              {
+                name: "RICHIESTE",
+                children: this.richieste.map((richiesta) => {
+                  return richiesta.vista;
+                }),
+              },
+            ]
           : [{ name: "RICHIESTE" }],
     };
   }

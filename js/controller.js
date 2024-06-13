@@ -1,28 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Controller = void 0;
-const fs_1 = require("fs");
 const fabbrica_1 = require("./fabbrica");
 const articolo_1 = require("./articolo");
 const counter_1 = require("./counter");
 const richiesta_1 = require("./richiesta");
 const regola_1 = require("./regola");
+const articoli_1 = require("./articoli");
+const fabbriche_1 = require("./fabbriche");
+const deposito_1 = require("./deposito");
 class Controller {
-    constructor(fabbricheFile, articoliFile, depositoFile) {
+    constructor() {
         this.fabbriche = [];
         this.articoli = [];
         this.deposito = new counter_1.Counter();
         this.richieste = [];
         this.contaDaRaccogliere = new counter_1.Counter();
-        this.fabbriche = JSON.parse((0, fs_1.readFileSync)(fabbricheFile).toString()).map((el) => {
-            return new fabbrica_1.Fabbrica(el.nome, el.fabbricabile, el.stagionale, el.size);
-        });
-        this.articoli = JSON.parse((0, fs_1.readFileSync)(articoliFile).toString()).map((el) => {
+        this.fabbriche = fabbriche_1.FABBRICHE.map((el) => new fabbrica_1.Fabbrica(el.nome, el.fabbricabile, el.stagionale, el.size));
+        this.articoli = articoli_1.ARTICOLI.map((el) => {
             let fabbrica = this.getFabbrica(el.fabbrica);
-            if (fabbrica)
-                return new articolo_1.Articolo(el.nome, fabbrica);
+            return new articolo_1.Articolo(el.nome, fabbrica);
         });
-        this.deposito.set(Number.parseInt(JSON.parse((0, fs_1.readFileSync)(depositoFile).toString()).deposito));
+        this.deposito.set(deposito_1.DEPOSITO);
         this.setProducibile();
     }
     produci(nome) {
@@ -126,13 +125,22 @@ class Controller {
         }
     }
     getArticolo(nome) {
-        return this.articoli.find((el) => el.getNome() === String(nome).toUpperCase());
+        let a = this.articoli.find((el) => el.getNome() === String(nome).toUpperCase());
+        if (!a)
+            throw new Error("Articolo non presente: " + nome);
+        return a;
     }
     getFabbrica(nome) {
-        return this.fabbriche.find((el) => el.getNome() === String(nome).toUpperCase());
+        let f = this.fabbriche.find((el) => el.getNome() === String(nome).toUpperCase());
+        if (!f)
+            throw new Error("Fabbrica non presente: " + nome);
+        return f;
     }
     getRichiesta(nome) {
-        return this.richieste.find((el) => el.getNome() === nome.toUpperCase());
+        let r = this.richieste.find((el) => el.getNome() === nome.toUpperCase());
+        if (!r)
+            throw new Error("Richiesta non presente :" + nome);
+        return r;
     }
     assegnaArticoli() {
         this.contaDaRaccogliere.set(0);
@@ -229,12 +237,14 @@ class Controller {
             }),
             deposito: this.deposito.get(),
             vista: this.richieste.length > 0
-                ? [{
+                ? [
+                    {
                         name: "RICHIESTE",
                         children: this.richieste.map((richiesta) => {
                             return richiesta.vista;
                         }),
-                    }]
+                    },
+                ]
                 : [{ name: "RICHIESTE" }],
         };
     }

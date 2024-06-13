@@ -4,14 +4,10 @@ const express = require('express')
 const app = express()
 const port = process.env.port || 3000;
 
-const articoliFile = "./json/articoli.json";
-const fabbricheFile = "./json/fabbriche.json";
-const depositoFile = "./json/deposito.json";
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-const controller = new Controller.Controller(fabbricheFile, articoliFile, depositoFile);
+const controller = new Controller.Controller();
 
 var cors = require('cors');
 app.use(cors());
